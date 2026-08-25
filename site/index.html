@@ -15,6 +15,7 @@
   --line:#e3e6ec; --line-2:#d3d8e0;
   --accent:#2f5bff; --accent-fg:#ffffff; --accent-soft:#eaefff;
   --accent-text:#2445c4;
+  --warn-text:#9a3412; --warn-bg:rgb(234 88 12 / .14);
   --term-bg:#0e1116; --term-fg:#d6dae2; --term-dim:#767e8d; --term-accent:#7fa0ff;
   --radius:10px;
   --glass:rgb(255 255 255 / .46);
@@ -32,6 +33,7 @@
     --line:#232833; --line-2:#2e3542;
     --accent:#5b7cff; --accent-fg:#0b0d11; --accent-soft:#141a2e;
     --accent-text:#a3b7ff;
+    --warn-text:#fdba74; --warn-bg:rgb(251 146 60 / .16);
     --glass:rgb(255 255 255 / .055);
     --glass-brd:rgb(255 255 255 / .11);
     --glass-hi:rgb(255 255 255 / .16);
@@ -163,38 +165,75 @@ h1{font-size:clamp(44px,6.6vw,82px); margin-top:26px}
 .showcase .stage{max-width:1180px; margin:0 auto}
 @media(max-width:900px){ .showcase{margin-top:44px; padding-bottom:56px} }
 
-/* ---------- hero stage: clutter resolving into order ---------- */
-.stage{position:relative; min-width:0; height:340px}
-.pane, .tidy li{
-  background:var(--glass); border:1px solid var(--glass-brd); border-radius:13px;
-  backdrop-filter:blur(20px) saturate(175%); -webkit-backdrop-filter:blur(20px) saturate(175%);
-  box-shadow:inset 0 1px 0 var(--glass-hi), 0 20px 44px -20px var(--glass-shadow, rgb(20 32 74 / .3));
-}
-.scatter{position:absolute; left:2%; top:8px; width:42%; height:100%}
-.pane{position:absolute; padding:13px 15px}
-.pane b, .pane s{display:block; border-radius:4px; background:var(--fg-3); opacity:.30; text-decoration:none}
-.pane b{height:7px; margin-bottom:9px}
-.pane s{height:6px}
-.p1{left:4%;  top:2%;  width:70%; height:70px; --r:-12deg}
-.p2{left:22%; top:26%; width:74%; height:74px; --r:7deg}
-.p3{left:0;   top:54%; width:66%; height:66px; --r:-5deg}
-.p4{left:22%; top:76%; width:60%; height:60px; --r:10deg}
-.p1 b{width:72%} .p1 s{width:48%}
-.p2 b{width:58%} .p2 s{width:76%}
-.p3 b{width:80%} .p3 s{width:42%}
-.p4 b{width:64%} .p4 s{width:55%}
-.flow{position:absolute; left:47%; top:46%; width:78px; height:22px; color:var(--accent-text); opacity:.7}
-.tidy{position:absolute; right:2%; top:10px; width:38%; list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; gap:10px}
-.tidy li{display:flex; align-items:center; gap:12px; height:48px; padding:0 16px}
-.tidy span{flex:1; height:7px; border-radius:4px; background:var(--fg-3); opacity:.30}
-.tidy li:nth-child(1) span{max-width:76%} .tidy li:nth-child(2) span{max-width:62%}
-.tidy li:nth-child(3) span{max-width:84%} .tidy li:nth-child(4) span{max-width:58%}
-.tidy li:nth-child(5) span{max-width:70%}
-.tidy em{width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none}
-@media(max-width:900px){ .stage{height:330px} }
+/* ---------- hero rotator: one scene per skill ---------- */
+.rotator{max-width:1180px; margin:0 auto; position:relative}
 
-/* ---------- section chrome ---------- */
+.tabs{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:26px}
+.tab{display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  font:500 13.5px/1 inherit; color:var(--fg-2); padding:9px 15px; border-radius:999px;
+  background:var(--glass); border:1px solid var(--glass-brd);
+  backdrop-filter:blur(16px) saturate(165%); -webkit-backdrop-filter:blur(16px) saturate(165%);
+  transition:color var(--t) var(--ease), transform var(--t) var(--ease), border-color var(--t) var(--ease)}
+.tab:hover{color:var(--fg); transform:translateY(-1px)}
+.tab .k{width:7px; height:7px; border-radius:50%; background:var(--fg-3); opacity:.5;
+  transition:background var(--t) var(--ease), opacity var(--t) var(--ease)}
+.tab.is-on{color:var(--fg); border-color:color-mix(in srgb, var(--accent) 45%, transparent)}
+.tab.is-on .k{background:var(--accent); opacity:1}
+
+.scenes{position:relative; height:300px}
+.scene{position:absolute; inset:0; opacity:0; visibility:hidden;
+  transition:opacity .45s var(--ease), visibility .45s}
+.scene.is-on{opacity:1; visibility:visible}
+
+.mess{position:absolute; left:1%; top:0; width:45%; height:100%}
+.neat{position:absolute; right:1%; top:6px; width:39%;
+  display:flex; flex-direction:column; gap:9px}
+
+.it, .frow{
+  background:var(--glass); border:1px solid var(--glass-brd); border-radius:12px;
+  backdrop-filter:blur(20px) saturate(175%); -webkit-backdrop-filter:blur(20px) saturate(175%);
+  box-shadow:inset 0 1px 0 var(--glass-hi), 0 18px 40px -20px rgb(20 32 74 / .30);
+}
+.it{position:absolute; left:var(--x); top:var(--y); width:var(--w);
+  display:flex; align-items:center; gap:10px; padding:11px 12px; transform:rotate(var(--r))}
+.it span{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px}
+.it b{font:600 12.5px/1.25 inherit; color:var(--fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.it s{font:400 10.5px/1.25 var(--mono); color:var(--fg-3); text-decoration:none;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.it .tag{font:600 9px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase;
+  padding:4px 6px; border-radius:5px; flex:none;
+  color:var(--accent-text); background:color-mix(in srgb, var(--accent) 15%, transparent)}
+.it .tag.bad{color:var(--warn-text); background:var(--warn-bg)}
+
+.fav{width:18px; height:18px; border-radius:5px; flex:none; background:var(--accent); opacity:.85}
+.fav.g{background:#12a37a} .fav.r{background:#c2410c}
+.ext{width:26px; height:20px; border-radius:5px; flex:none; display:grid; place-items:center;
+  font:700 8px/1 var(--mono); color:#fff; background:var(--accent); letter-spacing:.03em}
+.ext.z{background:#6b5bd6} .ext.m{background:#0e7490}
+.thumb{width:26px; height:20px; border-radius:5px; flex:none;
+  background:linear-gradient(135deg, var(--accent), color-mix(in srgb,var(--accent) 30%, transparent))}
+.thumb.b{background:linear-gradient(135deg,#0e7490,#67e8f9)}
+.thumb.g{background:linear-gradient(135deg,#12a37a,#a7f3d0)}
+.nt{border-left:3px solid color-mix(in srgb, var(--accent) 55%, transparent)}
+
+.frow{display:flex; align-items:center; gap:10px; padding:0 14px; height:56px}
+.frow span{flex:1; font:500 13px/1 inherit; color:var(--fg)}
+.frow em{font:600 11px/1 var(--mono); color:var(--fg-3); font-style:normal}
+.fol{width:16px; height:13px; border-radius:3px 5px 5px 5px; flex:none; background:var(--accent); opacity:.8}
+.fol.t{border-radius:50%}
+
+.flow{position:absolute; left:47.5%; top:50%; width:66px; height:20px; margin-top:-10px;
+  color:var(--accent-text); opacity:.6}
+
+@media(max-width:900px){
+  .scenes{height:250px}
+  .mess{width:47%} .neat{width:44%}
+  .frow{height:44px} .flow{width:40px; left:47%}
+  .it .tag{display:none}
+  .showcase{padding:0 16px 56px}
+}
+
+/* ---------- section chrome ---------- *//* ---------- section chrome ---------- */
 section{padding:88px 0}
 .sec-head{max-width:60ch}
 h2{font-size:clamp(28px,3.4vw,38px)}
@@ -310,7 +349,7 @@ footer a:hover{color:var(--fg)}
 
 /* ---------- motion ---------- */
 /* Hero entrance: leads the eye headline, then subtext, then action. */
-.js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .stage{
+.js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .rotator{
   opacity:0; transform:translateY(18px);
   animation:enter .85s cubic-bezier(.16,1,.3,1) forwards;
 }
@@ -320,35 +359,28 @@ footer a:hover{color:var(--fg)}
 .js .lede    {animation-delay:.24s}
 .js .herocmd {animation-delay:.32s}
 .js .cta     {animation-delay:.40s}
-.js .stage   {animation-delay:.46s}
+.js .rotator {animation-delay:.46s}
 @keyframes enter{to{opacity:1; transform:none}}
 
-/* Scattered panes settle from disorder into their resting tilt, then breathe.
-   The animation is the product claim, stated without words. */
-.js .pane{
-  opacity:0;
-  animation:settle .95s cubic-bezier(.16,1,.3,1) forwards,
-            drift 9s ease-in-out infinite;
-}
-.js .p1{animation-delay:.68s, 1.8s} .js .p2{animation-delay:.78s, 2.2s}
-.js .p3{animation-delay:.88s, 2.6s} .js .p4{animation-delay:.98s, 3.0s}
+/* Each scene replays the same idea: disorder settles, then order files in.
+   The animation is the product claim, made without words. */
+.js .scene.is-on .it{opacity:0; animation:settle .85s var(--ease) forwards}
+.js .scene.is-on .it:nth-child(1){animation-delay:.05s}
+.js .scene.is-on .it:nth-child(2){animation-delay:.13s}
+.js .scene.is-on .it:nth-child(3){animation-delay:.21s}
+.js .scene.is-on .it:nth-child(4){animation-delay:.29s}
 @keyframes settle{
-  from{opacity:0; transform:translate(-26px,14px) rotate(calc(var(--r) * 2.6)) scale(.94)}
+  from{opacity:0; transform:translate(-22px,12px) rotate(calc(var(--r) * 2.4)) scale(.95)}
   to  {opacity:1; transform:rotate(var(--r))}
 }
-@keyframes drift{
-  0%,100%{transform:rotate(var(--r)) translateY(0)}
-  50%    {transform:rotate(var(--r)) translateY(-7px)}
-}
+.js .scene.is-on .frow{opacity:0; animation:file .55s var(--ease) forwards}
+.js .scene.is-on .frow:nth-child(1){animation-delay:.40s}
+.js .scene.is-on .frow:nth-child(2){animation-delay:.48s}
+.js .scene.is-on .frow:nth-child(3){animation-delay:.56s}
+.js .scene.is-on .frow:nth-child(4){animation-delay:.64s}
+@keyframes file{from{opacity:0; transform:translateX(18px)} to{opacity:1; transform:none}}
 
-/* Ordered rows arrive after the scatter, one at a time, as if being filed. */
-.js .tidy li{opacity:0; animation:file .6s cubic-bezier(.16,1,.3,1) forwards}
-.js .tidy li:nth-child(1){animation-delay:1.20s} .js .tidy li:nth-child(2){animation-delay:1.30s}
-.js .tidy li:nth-child(3){animation-delay:1.40s} .js .tidy li:nth-child(4){animation-delay:1.50s}
-.js .tidy li:nth-child(5){animation-delay:1.60s}
-@keyframes file{from{opacity:0; transform:translateX(20px)} to{opacity:1; transform:none}}
-
-.js .flow{opacity:0; animation:enter .6s var(--ease) forwards 1.15s}
+.js .flow{opacity:0; animation:enter .6s var(--ease) forwards .75s}
 .js .rise{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1)}
 .js .rise.in{opacity:1; transform:none}
 @media (prefers-reduced-transparency:reduce){
@@ -363,11 +395,13 @@ footer a:hover{color:var(--fg)}
 }
 @media (prefers-reduced-motion:reduce){
   .js .rise{opacity:1; transform:none; transition:none}
-  .js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .stage,
-  .js .pane, .js .tidy li, .js .flow, .js .ann .dot::after{
-    opacity:1 !important; transform:none !important; animation:none !important;
+  .js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .rotator,
+  .js .scene .it, .js .scene .frow, .js .flow, .js .ann .dot::after{
+    opacity:1 !important; animation:none !important;
   }
-  .js .pane{transform:rotate(var(--r)) !important}
+  .js .scene .it{transform:rotate(var(--r)) !important}
+  .js .scene .frow{transform:none !important}
+  .scene{transition:none}
   .btn,.cell{transition:none}
 }
 </style>
@@ -416,24 +450,84 @@ footer a:hover{color:var(--fg)}
   </div>
 
   <div class="showcase">
-    <div class="stage" aria-label="Scattered files resolving into an ordered list">
-      <div class="scatter">
-        <div class="pane p1"><b></b><s></s></div>
-        <div class="pane p2"><b></b><s></s></div>
-        <div class="pane p3"><b></b><s></s></div>
-        <div class="pane p4"><b></b><s></s></div>
+    <div class="rotator" id="rotator">
+      <div class="tabs" role="tablist" aria-label="What declutter organizes">
+        <button role="tab" class="tab is-on" data-scene="0"><i class="k"></i>Bookmarks</button>
+        <button role="tab" class="tab" data-scene="1"><i class="k"></i>Downloads</button>
+        <button role="tab" class="tab" data-scene="2"><i class="k"></i>Desktop</button>
+        <button role="tab" class="tab" data-scene="3"><i class="k"></i>Notes</button>
       </div>
+
+      <div class="scenes">
+        <!-- Bookmarks: duplicates of the same page, collapsing into topic folders -->
+        <div class="scene is-on" data-scene="0" aria-label="Duplicate bookmarks collapsing into topic folders">
+          <div class="mess">
+            <div class="it bk d" style="--x:2%;  --y:4%;  --w:64%; --r:-11deg"><i class="fav"></i><span><b>Python docs</b><s>docs.python.org</s></span><em class="tag">dupe</em></div>
+            <div class="it bk"   style="--x:30%; --y:27%; --w:68%; --r:6deg"><i class="fav g"></i><span><b>Grid guide</b><s>css-tricks.com</s></span></div>
+            <div class="it bk d" style="--x:0;   --y:52%; --w:62%; --r:-5deg"><i class="fav"></i><span><b>Python docs</b><s>www.docs.python.org</s></span><em class="tag">dupe</em></div>
+            <div class="it bk x" style="--x:26%; --y:76%; --w:60%; --r:9deg"><i class="fav r"></i><span><b>Old blog post</b><s>404</s></span><em class="tag bad">dead</em></div>
+          </div>
+          <div class="neat">
+            <div class="frow"><i class="fol"></i><span>Reading</span><em>18</em></div>
+            <div class="frow"><i class="fol"></i><span>CSS</span><em>12</em></div>
+            <div class="frow"><i class="fol"></i><span>Python</span><em>9</em></div>
+            <div class="frow"><i class="fol"></i><span>Work</span><em>7</em></div>
+          </div>
+        </div>
+
+        <!-- Downloads: duplicate files and stale installers, sorted by kind -->
+        <div class="scene" data-scene="1" aria-label="Duplicate downloads sorted into folders">
+          <div class="mess">
+            <div class="it fl d" style="--x:3%;  --y:2%;  --w:60%; --r:-9deg"><i class="ext">PDF</i><span><b>invoice.pdf</b><s>2.4 MB</s></span><em class="tag">dupe</em></div>
+            <div class="it fl d" style="--x:31%; --y:26%; --w:64%; --r:7deg"><i class="ext">PDF</i><span><b>invoice(1).pdf</b><s>2.4 MB</s></span><em class="tag">dupe</em></div>
+            <div class="it fl"   style="--x:0;   --y:51%; --w:58%; --r:-6deg"><i class="ext z">ZIP</i><span><b>export-2025.zip</b><s>8.2 GB</s></span></div>
+            <div class="it fl x" style="--x:28%; --y:75%; --w:62%; --r:10deg"><i class="ext m">DMG</i><span><b>installer.dmg</b><s>untouched 8 months</s></span><em class="tag bad">stale</em></div>
+          </div>
+          <div class="neat">
+            <div class="frow"><i class="fol"></i><span>Documents</span><em>18</em></div>
+            <div class="frow"><i class="fol"></i><span>Archive/2025</span><em>31</em></div>
+            <div class="frow"><i class="fol"></i><span>Installers</span><em>9</em></div>
+            <div class="frow"><i class="fol"></i><span>Images</span><em>12</em></div>
+          </div>
+        </div>
+
+        <!-- Desktop: screenshots and giant leftovers, filed by age -->
+        <div class="scene" data-scene="2" aria-label="Desktop clutter filed by age">
+          <div class="mess">
+            <div class="it sh" style="--x:2%;  --y:3%;  --w:52%; --r:-10deg"><i class="thumb"></i><span><b>Screenshot 14.22</b><s>PNG</s></span></div>
+            <div class="it sh" style="--x:33%; --y:24%; --w:54%; --r:8deg"><i class="thumb b"></i><span><b>Screenshot 09.41</b><s>PNG</s></span></div>
+            <div class="it fl x" style="--x:0;   --y:50%; --w:64%; --r:-4deg"><i class="ext z">MOV</i><span><b>video-raw.mov</b><s>6.1 GB</s></span><em class="tag bad">1 GB+</em></div>
+            <div class="it sh" style="--x:30%; --y:74%; --w:52%; --r:11deg"><i class="thumb g"></i><span><b>Screenshot 21.05</b><s>PNG</s></span></div>
+          </div>
+          <div class="neat">
+            <div class="frow"><i class="fol"></i><span>Screenshots/Aug</span><em>24</em></div>
+            <div class="frow"><i class="fol"></i><span>Archive/2025</span><em>11</em></div>
+            <div class="frow"><i class="fol"></i><span>In progress</span><em>3</em></div>
+            <div class="frow"><i class="fol"></i><span>Large files</span><em>2</em></div>
+          </div>
+        </div>
+
+        <!-- Notes: orphans and stubs, gathered under real tags -->
+        <div class="scene" data-scene="3" aria-label="Orphan notes gathered under tags">
+          <div class="mess">
+            <div class="it nt x" style="--x:2%;  --y:3%;  --w:58%; --r:-8deg"><span><b>Untitled</b><s>6 words</s></span><em class="tag bad">stub</em></div>
+            <div class="it nt d" style="--x:32%; --y:26%; --w:62%; --r:7deg"><span><b>ideas</b><s>no links in</s></span><em class="tag">orphan</em></div>
+            <div class="it nt"   style="--x:0;   --y:52%; --w:56%; --r:-5deg"><span><b>meeting notes</b><s>#work #q3 #wrk</s></span></div>
+            <div class="it nt d" style="--x:29%; --y:76%; --w:58%; --r:10deg"><span><b>ideas 2</b><s>near duplicate</s></span><em class="tag">orphan</em></div>
+          </div>
+          <div class="neat">
+            <div class="frow"><i class="fol t"></i><span>#work</span><em>34</em></div>
+            <div class="frow"><i class="fol t"></i><span>#reading</span><em>21</em></div>
+            <div class="frow"><i class="fol t"></i><span>#ideas</span><em>16</em></div>
+            <div class="frow"><i class="fol t"></i><span>_archive</span><em>24</em></div>
+          </div>
+        </div>
+      </div>
+
       <svg class="flow" viewBox="0 0 90 24" fill="none" aria-hidden="true">
         <path d="M2 12 H62" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="5 8"/>
         <path d="M56 5 L68 12 L56 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <ul class="tidy">
-        <li><span></span><em></em></li>
-        <li><span></span><em></em></li>
-        <li><span></span><em></em></li>
-        <li><span></span><em></em></li>
-        <li><span></span><em></em></li>
-      </ul>
     </div>
   </div>
 </header>
@@ -648,6 +742,42 @@ and follow that workflow.
   // Failsafe: content must never stay hidden because an observer did not fire
   // (static snapshots, print, crawlers, prerender contexts).
   setTimeout(revealAll, 1500);
+})();
+
+// Scene rotator. Cycles through what declutter organizes, because breadth is
+// the point and a single static picture hides it.
+(function(){
+  var root = document.getElementById('rotator');
+  if (!root) return;
+  var tabs   = [].slice.call(root.querySelectorAll('.tab'));
+  var scenes = [].slice.call(root.querySelectorAll('.scene'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var at = 0, timer = null;
+
+  function show(i){
+    at = i;
+    scenes.forEach(function(s, n){ s.classList.toggle('is-on', n === i); });
+    tabs.forEach(function(t, n){
+      t.classList.toggle('is-on', n === i);
+      t.setAttribute('aria-selected', n === i ? 'true' : 'false');
+    });
+  }
+  function start(){ if (!reduce) timer = setInterval(function(){ show((at + 1) % scenes.length); }, 5200); }
+  function stop(){ clearInterval(timer); timer = null; }
+
+  tabs.forEach(function(t, n){
+    t.addEventListener('click', function(){ stop(); show(n); });
+  });
+  // Stop advancing while someone is reading or interacting.
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('focusin', stop);
+  root.addEventListener('mouseleave', function(){ if (!timer) start(); });
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) stop(); else if (!timer) start();
+  });
+
+  show(0);
+  start();
 })();
 
 // Copy buttons. Feedback on an action the user took, not decoration.
