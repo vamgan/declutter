@@ -73,7 +73,7 @@ def published(check_only):
     site = open(site_path, encoding="utf-8").read()
     new_site = re.sub(r'(class="stat">)\d+(<)', r"\g<1>%d\g<2>" % total, site)
     chips = "".join('<span class="chip">%s</span>' % a for a in chromium)
-    new_site = re.sub(r'(<dt>Chromium JSON</dt>\s*<dd>).*?(</dd>)',
+    new_site = re.sub(r'(<dt>Chrome and everything built on it</dt>\s*<dd>).*?(</dd>)',
                       lambda m: m.group(1) + chips + m.group(2), new_site, flags=re.S)
 
     readme_path = os.path.join(ROOT, "README.md")

@@ -93,9 +93,9 @@ folder, so the set stays small as coverage grows.
 
 | Skill | Category | Install name | Works on |
 |---|---|---|---|
-| Bookmarks | browser | `organizing-bookmarks` | Ten browsers. Dedupes across tracking parameters, `www`, and trailing slashes. Prunes dead links. Flattens folder sprawl. |
-| Folders | files | `organizing-folders` | Downloads, Desktop, Documents, or any folder you name. Finds byte-identical duplicates, archives stale files, groups by kind or project. |
-| Notes | notes | `organizing-notes` | An Obsidian vault or any folder of markdown. Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking `[[wikilinks]]`. |
+| Bookmarks | browser | `organizing-bookmarks` | Every major browser. The same page saved four times under slightly different links, bookmarks that no longer go anywhere, folders holding one thing. |
+| Folders | files | `organizing-folders` | Downloads, your Desktop, or any folder you name. The same file saved twice, things you have not opened in months, and the huge items you forgot were there. |
+| Notes | notes | `organizing-notes` | An Obsidian vault or any folder of notes. Notes you started and never finished, two versions of the same list, tags that all mean the same thing. |
 
 ### Which one should I use?
 

@@ -311,10 +311,10 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 /* ---------- coverage strip ---------- */
 .cover{margin-top:40px; border-top:1px solid var(--line)}
 .row{
-  display:grid; grid-template-columns:220px 1fr; gap:32px;
+  display:grid; grid-template-columns:280px 1fr; gap:28px;
   padding:22px 0; border-bottom:1px solid var(--line); align-items:baseline;
 }
-.row dt{font:500 13px/1.5 var(--mono); color:var(--fg-2)}
+.row dt{font:500 14.5px/1.4 inherit; color:var(--fg); letter-spacing:-.01em}
 .row dd{margin:0; min-width:0; display:flex; flex-wrap:wrap; gap:8px}
 .chip{transition:transform var(--t) var(--ease), border-color var(--t) var(--ease);
   font-size:13.5px; padding:5px 11px; border-radius:999px;
@@ -598,18 +598,18 @@ footer a:hover{color:var(--fg)}
       <div class="cell wide">
         <div class="cat">browser</div>
         <h3>organizing&#8209;bookmarks</h3>
-        <p>Dedupes across tracking parameters, <code>www</code>, and trailing slashes. Prunes dead links. Flattens folder sprawl.</p>
+        <p>The same page saved four times under slightly different links. Bookmarks that no longer go anywhere. Folders holding one thing. It keeps one of each and sorts the rest into topics.</p>
         <div class="stat">11<span>browsers covered by this one file</span></div>
       </div>
       <div class="cell span2">
         <div class="cat">files</div>
         <h3>organizing&#8209;folders</h3>
-        <p>Downloads, Desktop, Documents, or any folder you name. Finds byte-identical duplicates, archives what has gone stale, and groups what is left by kind or by project. Names every multi-gigabyte item individually and leaves this week's work alone.</p>
+        <p>Point it at Downloads, your Desktop, or any folder you like. It finds the same file saved twice, sets aside what you have not opened in months, and tells you about the huge things you forgot were in there. Anything you touched this week is left alone.</p>
       </div>
       <div class="cell span2">
         <div class="cat">notes</div>
         <h3>organizing&#8209;notes</h3>
-        <p>An Obsidian vault or any folder of markdown. Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking your <code>[[wikilinks]]</code>, and never merges two notes without asking about that specific pair.</p>
+        <p>Notes you started and never finished. Two versions of the same list. Half a dozen tags that all mean the same thing. It gathers them together without breaking the links between them, and never merges two notes without asking you first.</p>
       </div>
 </div>
   </div>
@@ -618,26 +618,26 @@ footer a:hover{color:var(--fg)}
 <section id="coverage">
   <div class="wrap">
     <div class="sec-head rise">
-      <h2>One skill, every app in the category.</h2>
-      <p>Skills target a category, not an app. Paths live in a shared reference file, so a skill covers every app that shares a storage format.</p>
+      <h2>One skill, every app of its kind.</h2>
+      <p>One skill covers a whole kind of app rather than a single one. Show it where another browser keeps its bookmarks and it works there too, with no new skill to write.</p>
     </div>
     <dl class="cover rise">
       <div class="row">
-        <dt>Chromium JSON</dt>
+        <dt>Chrome and everything built on it</dt>
         <dd><span class="chip">Chrome</span><span class="chip">Brave</span><span class="chip">Edge</span><span class="chip">Chromium</span><span class="chip">Vivaldi</span><span class="chip">Arc</span><span class="chip">Opera</span><span class="chip">Whale</span></dd>
       </div>
       <div class="row">
-        <dt>Safari plist</dt>
+        <dt>Safari</dt>
         <dd><span class="chip">Safari</span></dd>
       </div>
       <div class="row">
-        <dt>places.sqlite</dt>
+        <dt>Firefox and browsers built on it</dt>
         <dd><span class="chip">Firefox</span><span class="chip">Tor Browser</span></dd>
       </div>
     </dl>
     <p class="punch rise">Adding a browser takes <em>three lines and one command.</em></p>
-    <p class="rise" style="margin-top:14px; font-size:15px; color:var(--fg-2); max-width:62ch">A row in the reference table, the data path, the process name, then one <code>sync</code> command. No new skill and no new code, and every browser skill covers it immediately. Every browser listed above was added that way.</p>
-    <p class="rise" style="margin-top:12px; font-size:15px; color:var(--fg-2); max-width:62ch">The same holds across operating systems. Chrome keeps identical bookmark JSON on Windows, macOS, and Linux, so only the path changes. macOS is the strictest of the three and the one that needs a permission grant.</p>
+    <p class="rise" style="margin-top:14px; font-size:15px; color:var(--fg-2); max-width:62ch">Where it keeps its bookmarks, what it is called when running, and one command to tie it together. No new skill and no code at all, and every browser skill covers it straight away. Every browser above was added that way.</p>
+    <p class="rise" style="margin-top:12px; font-size:15px; color:var(--fg-2); max-width:62ch">The same is true across Windows, Mac, and Linux. A browser keeps your bookmarks in exactly the same way on each, so only the location changes. Mac is the strictest of the three and the only one that asks for permission first.</p>
   </div>
 </section>
 
@@ -645,7 +645,7 @@ footer a:hover{color:var(--fg)}
   <div class="wrap">
     <div class="sec-head rise">
       <h2>Add your app.</h2>
-      <p>No build step, no API, no TypeScript. Write a markdown file and open a pull request.</p>
+      <p>No build step and no code. Describe what tidy looks like for your app in a text file, and open a pull request.</p>
     </div>
     <div class="contrib rise">
       <div class="codeblock">
@@ -672,20 +672,20 @@ and follow that workflow.
       </div>
       <div class="steps">
         <div class="step">
-          <h3>Already-supported format?</h3>
-          <p>Add a row to the reference table with the path and permissions. Every existing skill in that category covers your app immediately.</p>
+          <h3>An app like one we already handle?</h3>
+          <p>Add a row saying where it keeps its data. Every skill of that kind then covers your app straight away.</p>
         </div>
         <div class="step">
-          <h3>New cleanup behaviour?</h3>
-          <p>One file at <code>skills/&lt;category&gt;/&lt;name&gt;/SKILL.md</code>. Point at the shared rules, then write what "organized" means for your app.</p>
+          <h3>A new kind of tidying?</h3>
+          <p>One text file. Point at the shared safety rules, then describe what tidy means for your app in plain words.</p>
         </div>
         <div class="step">
-          <h3>New storage format?</h3>
-          <p>Add a parser to <code>scripts/</code>. Python 3 standard library only, no dependencies, and it refuses to write without a backup.</p>
+          <h3>An app that stores things differently?</h3>
+          <p>This one needs a little code to read its files. Nothing to install, and it refuses to write anything without a backup saved first.</p>
         </div>
         <div class="step">
           <h3>Reviewed by humans.</h3>
-          <p>There is no CI gate. These skills move real files, so a green check would be false comfort. Someone reads the markdown instead.</p>
+          <p>Nothing here is approved by a robot. These skills move real files, so a green tick would be false comfort. A person reads every one.</p>
         </div>
       </div>
     </div>
@@ -705,15 +705,15 @@ and follow that workflow.
       </div>
       <div class="rule">
         <h3>Shows counts and waits.</h3>
-        <p>Numbers, not adjectives. Asking a question is never consent to rewrite something.</p>
+        <p>Numbers, not adjectives. Asking a question is never permission to change anything.</p>
       </div>
       <div class="rule">
         <h3>Refuses to run unsafely.</h3>
-        <p>The scripts will not write without a real backup, or into a live browser that would clobber the edit on quit.</p>
+        <p>It will not touch anything without a backup already saved, or work on a browser that is still open and would overwrite the changes when it closes.</p>
       </div>
       <div class="rule">
         <h3>Never leaves the folder you named.</h3>
-        <p>No symlink escapes. Keys, credentials, and library data are never scanned or listed.</p>
+        <p>It cannot slip out through a shortcut. Keys, passwords, and system data are never even looked at.</p>
       </div>
       <div class="rule">
         <h3>Never deletes.</h3>
