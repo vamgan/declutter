@@ -1,0 +1,10 @@
+{
+  "name": "declutter",
+  "description": "Skills that organize the apps and files on your machine — browsers, downloads, notes. Adding support for a new app is one markdown file.",
+  "version": "0.1.0",
+  "author": { "name": "Vamil Gandhi" },
+  "homepage": "https://github.com/vamgan/declutter",
+  "repository": "https://github.com/vamgan/declutter",
+  "license": "MIT",
+  "keywords": ["skills", "organization", "cleanup", "bookmarks", "files", "notes", "macos"]
+}
