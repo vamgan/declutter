@@ -5,8 +5,7 @@ description: Use when the user wants to clean up, dedupe, prune, or reorganize b
 
 # Organizing Bookmarks
 
-Read `../../../references/safe-mutation-rules.md` (relative to this skill's base
-directory) and follow that workflow. This file adds only what is specific to
+Read `references/safe-mutation-rules.md` and follow that workflow. This file adds only what is specific to
 bookmarks.
 
 ## What "organized" means here

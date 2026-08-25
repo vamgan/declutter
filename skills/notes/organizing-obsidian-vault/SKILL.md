@@ -5,7 +5,7 @@ description: Use when the user wants to clean up, organize, or audit an Obsidian
 
 # Organizing an Obsidian Vault
 
-Read `../../../references/safe-mutation-rules.md` and follow that workflow. This file
+Read `references/safe-mutation-rules.md` and follow that workflow. This file
 adds only what is specific to notes.
 
 ## Why notes are harder than files

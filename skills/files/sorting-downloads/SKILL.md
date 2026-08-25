@@ -5,7 +5,7 @@ description: Use when the user wants to clean up, sort, dedupe, or organize thei
 
 # Sorting Downloads
 
-Read `../../../references/safe-mutation-rules.md` and follow that workflow. This file
+Read `references/safe-mutation-rules.md` and follow that workflow. This file
 adds only what is specific to Downloads.
 
 ## What "organized" means here

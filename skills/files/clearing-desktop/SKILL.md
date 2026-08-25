@@ -5,7 +5,7 @@ description: Use when the user wants to clean up, clear, or organize their Deskt
 
 # Clearing the Desktop
 
-Read `../../../references/safe-mutation-rules.md` and follow that workflow. This file
+Read `references/safe-mutation-rules.md` and follow that workflow. This file
 adds only what is specific to the Desktop.
 
 ## What makes the Desktop different
