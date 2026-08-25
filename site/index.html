@@ -109,28 +109,36 @@ h1{font-size:clamp(40px,5.4vw,64px)}
   .hero .wrap{grid-template-columns:1fr; gap:40px}
 }
 
-/* ---------- terminal ---------- */
-.hero .wrap > *, .contrib > *{min-width:0}
-.term{
-  min-width:0;
-  background:color-mix(in srgb, var(--term-bg) 86%, transparent);
-  backdrop-filter:blur(26px) saturate(150%);
-  -webkit-backdrop-filter:blur(26px) saturate(150%);
-  border:1px solid rgb(255 255 255 / .12); border-radius:14px;
-  overflow:hidden;
-  box-shadow:inset 0 1px 0 rgb(255 255 255 / .14), 0 28px 70px -30px rgb(10 16 40 / .55);
+/* ---------- hero stage: clutter resolving into order ---------- */
+.stage{position:relative; min-width:0; height:390px}
+.pane, .tidy li{
+  background:var(--glass); border:1px solid var(--glass-brd); border-radius:13px;
+  backdrop-filter:blur(20px) saturate(175%); -webkit-backdrop-filter:blur(20px) saturate(175%);
+  box-shadow:inset 0 1px 0 var(--glass-hi), 0 20px 44px -20px var(--glass-shadow, rgb(20 32 74 / .3));
 }
-.term-bar{
-  display:flex; align-items:center; gap:8px; padding:11px 14px;
-  border-bottom:1px solid #1e232c; font:500 12px/1 var(--mono); color:var(--term-dim);
-}
-.term pre{
-  margin:0; padding:20px 18px; overflow-x:auto;
-  font-size:12.5px; line-height:1.75; color:var(--term-fg); white-space:pre;
-}
-.u{color:var(--term-accent)}
-.d{color:var(--term-dim)}
-.g{color:#6ee7a8}
+.scatter{position:absolute; left:0; top:8px; width:46%; height:100%}
+.pane{position:absolute; padding:13px 15px}
+.pane b, .pane s{display:block; border-radius:4px; background:var(--fg-3); opacity:.30; text-decoration:none}
+.pane b{height:7px; margin-bottom:9px}
+.pane s{height:6px}
+.p1{left:4%;  top:2%;  width:70%; height:78px; --r:-12deg}
+.p2{left:22%; top:26%; width:74%; height:84px; --r:7deg}
+.p3{left:0;   top:54%; width:66%; height:74px; --r:-5deg}
+.p4{left:22%; top:76%; width:60%; height:66px; --r:10deg}
+.p1 b{width:72%} .p1 s{width:48%}
+.p2 b{width:58%} .p2 s{width:76%}
+.p3 b{width:80%} .p3 s{width:42%}
+.p4 b{width:64%} .p4 s{width:55%}
+.flow{position:absolute; left:48.5%; top:46%; width:78px; height:22px; color:var(--accent-text); opacity:.7}
+.tidy{position:absolute; right:0; top:14px; width:41%; list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:12px}
+.tidy li{display:flex; align-items:center; gap:12px; height:56px; padding:0 16px}
+.tidy span{flex:1; height:7px; border-radius:4px; background:var(--fg-3); opacity:.30}
+.tidy li:nth-child(1) span{max-width:76%} .tidy li:nth-child(2) span{max-width:62%}
+.tidy li:nth-child(3) span{max-width:84%} .tidy li:nth-child(4) span{max-width:58%}
+.tidy li:nth-child(5) span{max-width:70%}
+.tidy em{width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none}
+@media(max-width:900px){ .stage{height:330px} }
 
 /* ---------- section chrome ---------- */
 section{padding:88px 0}
@@ -167,6 +175,33 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 .cell.span2{grid-column:span 2}
 .cell.wide .stat span{display:block; margin-top:8px; font:400 13.5px/1.5 var(--sans); color:var(--fg-2)}
 @media(max-width:900px){ .bento{grid-template-columns:1fr} .cell.wide{grid-row:span 1} .cell.span2{grid-column:span 1} }
+
+/* ---------- install ---------- */
+.ways{margin-top:40px; display:grid; grid-template-columns:repeat(2,1fr); gap:18px; align-items:stretch}
+.way{border:1px solid var(--glass-brd); border-radius:14px; padding:24px; background:var(--glass);
+  backdrop-filter:blur(22px) saturate(175%); -webkit-backdrop-filter:blur(22px) saturate(175%);
+  box-shadow:inset 0 1px 0 var(--glass-hi); min-width:0}
+.way h3{font-size:16px}
+.way > p{margin-top:7px; font-size:14px; color:var(--fg-2)}
+.way .agents{margin-top:10px; display:flex; flex-wrap:wrap; gap:6px}
+.way .agents span{font:500 11.5px/1 var(--mono); padding:5px 9px; border-radius:6px;
+  background:var(--bg-3); color:var(--fg-2); border:1px solid var(--line)}
+.cmd{margin-top:16px; display:flex; align-items:center; gap:10px;
+  background:var(--term-bg); border:1px solid rgb(255 255 255 / .12); border-radius:10px;
+  padding:12px 12px 12px 14px; min-width:0}
+/* Only the command scrolls. The copy button stays reachable on narrow screens. */
+.cmd code{font:500 13px/1.5 var(--mono); color:var(--term-fg); white-space:nowrap;
+  flex:1; min-width:0; overflow-x:auto; scrollbar-width:thin}
+.cmd code i{font-style:normal; color:var(--term-dim)}
+.copy{flex:none; width:30px; height:30px; border-radius:7px; cursor:pointer;
+  border:1px solid rgb(255 255 255 / .16); background:rgb(255 255 255 / .06);
+  color:#d6dae2; display:grid; place-items:center; transition:background .15s, color .15s}
+.copy:hover{background:rgb(255 255 255 / .13)}
+.copy svg{width:14px; height:14px}
+.copy.ok{color:#6ee7a8; border-color:rgb(110 231 168 / .45)}
+.note{margin-top:22px; font-size:14.5px; color:var(--fg-2); max-width:70ch}
+.note code{font:500 13px/1 var(--mono); background:var(--bg-3); padding:2px 6px; border-radius:5px}
+@media(max-width:860px){ .ways{grid-template-columns:1fr} }
 
 /* ---------- coverage strip ---------- */
 .cover{margin-top:40px; border-top:1px solid var(--line)}
@@ -219,6 +254,43 @@ footer a{color:var(--fg-2); text-decoration:none}
 footer a:hover{color:var(--fg)}
 
 /* ---------- motion ---------- */
+/* Hero entrance: leads the eye headline, then subtext, then action. */
+.js .hero h1, .js .lede, .js .cta, .js .stage{
+  opacity:0; transform:translateY(18px);
+  animation:enter .85s cubic-bezier(.16,1,.3,1) forwards;
+}
+.js .hero h1{animation-delay:.05s}
+.js .lede    {animation-delay:.16s}
+.js .cta     {animation-delay:.26s}
+.js .stage   {animation-delay:.20s}
+@keyframes enter{to{opacity:1; transform:none}}
+
+/* Scattered panes settle from disorder into their resting tilt, then breathe.
+   The animation is the product claim, stated without words. */
+.js .pane{
+  opacity:0;
+  animation:settle .95s cubic-bezier(.16,1,.3,1) forwards,
+            drift 9s ease-in-out infinite;
+}
+.js .p1{animation-delay:.42s, 1.5s} .js .p2{animation-delay:.52s, 1.9s}
+.js .p3{animation-delay:.62s, 2.3s} .js .p4{animation-delay:.72s, 2.7s}
+@keyframes settle{
+  from{opacity:0; transform:translate(-26px,14px) rotate(calc(var(--r) * 2.6)) scale(.94)}
+  to  {opacity:1; transform:rotate(var(--r))}
+}
+@keyframes drift{
+  0%,100%{transform:rotate(var(--r)) translateY(0)}
+  50%    {transform:rotate(var(--r)) translateY(-7px)}
+}
+
+/* Ordered rows arrive after the scatter, one at a time, as if being filed. */
+.js .tidy li{opacity:0; animation:file .6s cubic-bezier(.16,1,.3,1) forwards}
+.js .tidy li:nth-child(1){animation-delay:.95s} .js .tidy li:nth-child(2){animation-delay:1.05s}
+.js .tidy li:nth-child(3){animation-delay:1.15s} .js .tidy li:nth-child(4){animation-delay:1.25s}
+.js .tidy li:nth-child(5){animation-delay:1.35s}
+@keyframes file{from{opacity:0; transform:translateX(20px)} to{opacity:1; transform:none}}
+
+.js .flow{opacity:0; animation:enter .6s ease forwards .9s}
 .js .rise{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1)}
 .js .rise.in{opacity:1; transform:none}
 @media (prefers-reduced-transparency:reduce){
@@ -233,6 +305,11 @@ footer a:hover{color:var(--fg)}
 }
 @media (prefers-reduced-motion:reduce){
   .js .rise{opacity:1; transform:none; transition:none}
+  .js .hero h1, .js .lede, .js .cta, .js .stage,
+  .js .pane, .js .tidy li, .js .flow{
+    opacity:1 !important; transform:none !important; animation:none !important;
+  }
+  .js .pane{transform:rotate(var(--r)) !important}
   .btn,.cell{transition:none}
 }
 </style>
@@ -249,6 +326,7 @@ footer a:hover{color:var(--fg)}
       declutter
     </a>
     <div class="navlinks">
+      <a href="#install">Install</a>
       <a href="#skills">Skills</a>
       <a href="#coverage">Coverage</a>
       <a href="#contribute">Contribute</a>
@@ -262,40 +340,77 @@ footer a:hover{color:var(--fg)}
   <div class="wrap">
     <div>
       <h1>Your computer<br>is a mess.</h1>
-      <p class="lede">Open-source skills that teach Claude to organize your browsers, downloads, and notes. Adding an app is one markdown file.</p>
+      <p class="lede">Open-source skills that teach your AI agent to organize your browsers, downloads, and notes. Adding an app is one file.</p>
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/vamgan/declutter">Get it on GitHub</a>
         <a class="btn btn-ghost" href="#contribute">Add a skill</a>
       </div>
     </div>
-    <div class="term">
-      <div class="term-bar">bookmarks</div>
-<pre><span class="u">you ›</span> my bookmarks are a disaster
-
-<span class="u">claude ›</span> Chrome is running. Bookmarks cannot be
-        edited safely while it is open.
-
-<span class="u">you ›</span> quit it
-
-<span class="u">claude ›</span> 3,412 bookmarks across 31 folders.
-        <span class="d">Backed up to ~/.declutter-backups/</span>
-
-          412  duplicates
-           89  dead links
-            9  folders holding one item
-
-        Dedupe, prune, collapse to 12 topics.
-        <span class="d">Nothing has changed yet.</span> Apply?
-
-<span class="u">you ›</span> go
-
-<span class="u">claude ›</span> <span class="g">3,412 → 2,911 in 12 folders.</span>
-        <span class="d">Undo: cp ~/.declutter-backups/…</span></pre>
+    <div class="stage" aria-label="Scattered files resolving into an ordered list">
+      <div class="scatter">
+        <div class="pane p1"><b></b><s></s></div>
+        <div class="pane p2"><b></b><s></s></div>
+        <div class="pane p3"><b></b><s></s></div>
+        <div class="pane p4"><b></b><s></s></div>
+      </div>
+      <svg class="flow" viewBox="0 0 90 24" fill="none" aria-hidden="true">
+        <path d="M2 12 H62" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="5 8"/>
+        <path d="M56 5 L68 12 L56 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <ul class="tidy">
+        <li><span></span><em></em></li>
+        <li><span></span><em></em></li>
+        <li><span></span><em></em></li>
+        <li><span></span><em></em></li>
+        <li><span></span><em></em></li>
+      </ul>
     </div>
   </div>
 </header>
 
-<section id="skills">
+
+<section id="install">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <h2>Install it in one command.</h2>
+      <p>Works with any agent that reads skills. Pick whichever matches your setup.</p>
+    </div>
+    <div class="ways rise">
+      <div class="way">
+        <h3>Any agent</h3>
+        <p>Installs the four skills wherever your agent looks for them.</p>
+        <div class="agents"><span>Claude Code</span><span>Cursor</span><span>Codex</span><span>Gemini CLI</span><span>OpenCode</span><span>Windsurf</span></div>
+        <div class="cmd">
+          <code id="c1">npx skills add vamgan/declutter</code>
+          <button class="copy" data-for="c1" aria-label="Copy command">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V3.8A1.3 1.3 0 0 0 9.2 2.5H3.8A1.3 1.3 0 0 0 2.5 3.8v5.4a1.3 1.3 0 0 0 1.3 1.3h1.7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="way">
+        <h3>Claude Code plugin</h3>
+        <p>Adds the skills plus slash commands and updates in place.</p>
+        <div class="agents"><span>Claude Code</span></div>
+        <div class="cmd">
+          <code id="c2">/plugin marketplace add vamgan/declutter</code>
+          <button class="copy" data-for="c2" aria-label="Copy command">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V3.8A1.3 1.3 0 0 0 9.2 2.5H3.8A1.3 1.3 0 0 0 2.5 3.8v5.4a1.3 1.3 0 0 0 1.3 1.3h1.7"/></svg>
+          </button>
+        </div>
+        <div class="cmd">
+          <code id="c3">/plugin install declutter@declutter</code>
+          <button class="copy" data-for="c3" aria-label="Copy command">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V3.8A1.3 1.3 0 0 0 9.2 2.5H3.8A1.3 1.3 0 0 0 2.5 3.8v5.4a1.3 1.3 0 0 0 1.3 1.3h1.7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p class="note rise">Then say what you want: <em>"my downloads folder is out of control."</em><br>
+    On macOS, grant Full Disk Access to your terminal in System Settings, Privacy &amp; Security. Without it the operating system blocks reads of app data, and every skill will say so and stop rather than half-working.</p>
+  </div>
+</section>
+
+<section class="alt" id="skills">
   <div class="wrap">
     <div class="sec-head rise">
       <h2>Four skills, one habit.</h2>
@@ -327,7 +442,7 @@ footer a:hover{color:var(--fg)}
   </div>
 </section>
 
-<section class="alt" id="coverage">
+<section id="coverage">
   <div class="wrap">
     <div class="sec-head rise">
       <h2>One skill, every app in the category.</h2>
@@ -352,7 +467,7 @@ footer a:hover{color:var(--fg)}
   </div>
 </section>
 
-<section id="contribute">
+<section class="alt" id="contribute">
   <div class="wrap">
     <div class="sec-head rise">
       <h2>Add your app.</h2>
@@ -403,7 +518,7 @@ and follow that workflow.
   </div>
 </section>
 
-<section class="alt" id="safety">
+<section id="safety">
   <div class="wrap">
     <div class="sec-head rise">
       <h2>How it does not wreck your machine.</h2>
@@ -464,6 +579,27 @@ and follow that workflow.
   // (static snapshots, print, crawlers, prerender contexts).
   setTimeout(revealAll, 1500);
 })();
+
+// Copy buttons. Feedback on an action the user took, not decoration.
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var el = document.getElementById(btn.getAttribute('data-for'));
+    if (!el) return;
+    var done = function(){
+      btn.classList.add('ok');
+      btn.setAttribute('aria-label', 'Copied');
+      setTimeout(function(){ btn.classList.remove('ok'); btn.setAttribute('aria-label','Copy command'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(el.textContent.trim()).then(done, function(){});
+    } else {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      sel.removeAllRanges();
+    }
+  });
+});
 </script>
 </body>
 </html>
