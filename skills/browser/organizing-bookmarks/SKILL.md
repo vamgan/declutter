@@ -22,19 +22,19 @@ bookmarks.
 
 ### 1. Find the store
 
-Look up the path in `references/app-data-locations.md`. Enumerate profiles rather
-than assuming `Default`:
-
 ```bash
-ls ~/Library/Application\ Support/Google/Chrome/ | grep -E '^(Default|Profile)'
+python3 scripts/platforms.py locate chrome
 ```
+
+Works on macOS, Linux, and Windows, and enumerates every profile rather than assuming
+`Default`. If `blocked` is true, relay the `remediation` and stop.
 
 If the user did not name a browser, check which are installed and ask. Do not guess.
 
 ### 2. Confirm the browser is quit
 
 ```bash
-pgrep -x "Google Chrome" >/dev/null && echo RUNNING || echo quit
+python3 scripts/platforms.py running chrome
 ```
 
 **Chromium rewrites `Bookmarks` on exit and will silently destroy your edits.** If it
