@@ -108,7 +108,7 @@ skill covers every app that shares a storage format:
 | Safari plist | Safari |
 | `places.sqlite` | Firefox · Tor Browser |
 
-**Ten browsers, one markdown file.** Adding Vivaldi was one line in a table.
+**Ten browsers, one markdown file.** Adding Vivaldi took three lines and no new skill.
 
 The same holds across operating systems. Chrome keeps identical bookmark JSON on
 Windows, macOS, and Linux, so only the path changes.
@@ -150,8 +150,8 @@ Read `references/safe-mutation-rules.md` and follow that workflow.
 
 Open a pull request. See [ADDING-A-SKILL.md](docs/ADDING-A-SKILL.md).
 
-Already-supported format? Then it's a **table row**, and every existing skill in that
-category covers your app immediately.
+Already-supported format? Then it's **three lines** across two files, and every
+existing skill in that category covers your app immediately.
 
 Want a skill for an app that isn't here?
 [Open an issue](../../issues/new?template=app_request.md).

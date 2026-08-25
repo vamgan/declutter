@@ -6,14 +6,26 @@ Two kinds of contribution. Pick the one that matches what you want.
 
 ## Adding an app to a category that already exists
 
-**This is usually a table row.** If your app stores its data in a format that is
-already supported, add it to `references/app-data-locations.md` and every existing
-skill in that category covers it immediately.
+**Three lines, across two files.** If your app stores its data in a format that is
+already supported, register it in all three places below and every existing skill in
+that category covers it immediately. No new skill, no new code.
+
+| Where | What to add |
+|---|---|
+| `references/app-data-locations.md` | the table row, so a human can read it |
+| `scripts/platforms.py`, the family table | where the data lives, on each platform |
+| `scripts/platforms.py`, `PROCESS_NAMES` | what the running process is called |
+
+**All three, or none.** Registering a path without a process name is the dangerous
+half-addition: `running()` returns `None`, so a skill cannot tell the app is open, and
+a browser that rewrites its store on exit will clobber the change. Opera shipped in
+exactly that state until a test caught it. A test now enforces the pairing, but the
+test only helps if you know why it is there.
 
 Vivaldi was added this way. It is a Chromium browser, so it keeps bookmarks in the
-same JSON format as Chrome — the entire change was one line in a table.
+same JSON format as Chrome, and it needed no new skill at all.
 
-Include:
+For the table row, include:
 
 | Field | Why it matters |
 |---|---|
