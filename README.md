@@ -108,7 +108,7 @@ skill covers every app that shares a storage format:
 | Safari plist | Safari |
 | `places.sqlite` | Firefox · Tor Browser |
 
-**Nine browsers, one markdown file.** Adding Vivaldi was one line in a table.
+**Ten browsers, one markdown file.** Adding Vivaldi was one line in a table.
 
 The same holds across operating systems. Chrome keeps identical bookmark JSON on
 Windows, macOS, and Linux, so only the path changes.
