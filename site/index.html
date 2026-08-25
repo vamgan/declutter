@@ -324,6 +324,7 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 }
 @media(max-width:720px){ .row{grid-template-columns:1fr; gap:12px} }
 .punch{margin-top:36px; font-size:20px; font-weight:600; letter-spacing:-.02em}
+.punch + p code{font:500 13px/1 var(--mono); background:var(--bg-3); padding:2px 6px; border-radius:5px}
 .punch em{font-style:normal; color:var(--accent-text)}
 
 /* ---------- contribute: code + prose ---------- */
@@ -634,8 +635,9 @@ footer a:hover{color:var(--fg)}
         <dd><span class="chip">Firefox</span><span class="chip">Tor Browser</span></dd>
       </div>
     </dl>
-    <p class="punch rise">Adding a browser takes <em>three lines and no new skill.</em></p>
-    <p class="rise" style="margin-top:14px; font-size:15px; color:var(--fg-2); max-width:62ch">The same holds across operating systems. Chrome keeps identical bookmark JSON on Windows, macOS, and Linux, so only the path changes. macOS is the strictest of the three and the one that needs a permission grant.</p>
+    <p class="punch rise">Adding a browser takes <em>three lines and one command.</em></p>
+    <p class="rise" style="margin-top:14px; font-size:15px; color:var(--fg-2); max-width:62ch">A row in the reference table, the data path, the process name, then one <code>sync</code> command. No new skill and no new code, and every browser skill covers it immediately. Naver Whale was added exactly that way.</p>
+    <p class="rise" style="margin-top:12px; font-size:15px; color:var(--fg-2); max-width:62ch">The same holds across operating systems. Chrome keeps identical bookmark JSON on Windows, macOS, and Linux, so only the path changes. macOS is the strictest of the three and the one that needs a permission grant.</p>
   </div>
 </section>
 
