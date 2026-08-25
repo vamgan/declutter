@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<style>
+/* Source for social-card.png, the Open Graph and GitHub social preview image.
+   Rendered at 1280x640 (2:1) by scripts/build-assets.sh. Link previews crop
+   toward the centre and shrink to a thumbnail, so this is deliberately larger
+   in type and simpler in composition than the wide README banner. */
+:root{
+  --bg1:#ffffff; --bg2:#e9eefb; --ink:#0e1116; --sub:#4a5261;
+  --accent:#2f5bff; --accent2:#00b6d6;
+  --card:rgba(255,255,255,.72); --cardbrd:rgba(255,255,255,.92);
+  --chip:rgba(14,17,22,.10); --sh:rgba(20,32,74,.20);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1280px;height:640px;overflow:hidden;position:relative;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  background:linear-gradient(140deg,var(--bg1),var(--bg2))}
+.amb{position:absolute;inset:-25%;
+  background:
+    radial-gradient(40% 55% at 10% 8%,  color-mix(in srgb,var(--accent) 32%,transparent), transparent 62%),
+    radial-gradient(36% 52% at 92% 88%, color-mix(in srgb,var(--accent2) 30%,transparent), transparent 60%),
+    radial-gradient(30% 44% at 70% 4%,  color-mix(in srgb,var(--accent) 16%,transparent), transparent 60%);
+  filter:blur(4px)}
+.wrap{position:absolute;inset:0;padding:76px 80px;display:flex;flex-direction:column;justify-content:center}
+.mark{width:92px;height:92px;border-radius:25px;background:var(--accent);
+  display:flex;flex-direction:column;justify-content:center;gap:11px;padding:0 24px;
+  box-shadow:0 20px 44px -14px color-mix(in srgb,var(--accent) 60%,transparent)}
+.mark i{display:block;height:8px;border-radius:4px;background:#fff}
+.mark i:nth-child(1){width:44px}.mark i:nth-child(2){width:32px}.mark i:nth-child(3){width:18px}
+h1{margin-top:34px;font-size:104px;font-weight:700;letter-spacing:-3.6px;color:var(--ink);line-height:1}
+p{margin-top:22px;font-size:32px;color:var(--sub);letter-spacing:-.5px;max-width:20ch;line-height:1.25}
+.mono{margin-top:30px;display:inline-flex;align-self:flex-start;align-items:center;gap:11px;
+  font:500 22px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#e8ecf5;
+  background:#12161f;border-radius:12px;padding:16px 20px;
+  box-shadow:0 18px 40px -18px var(--sh)}
+.mono b{color:#7fa0ff;font-weight:500}
+/* the concept, kept to the right edge so a centre crop never loses the wordmark */
+.stack{position:absolute;right:66px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:16px}
+.bar{width:250px;height:60px;border-radius:15px;background:var(--card);
+  border:1px solid var(--cardbrd);backdrop-filter:blur(16px) saturate(170%);
+  box-shadow:0 22px 46px -20px var(--sh), inset 0 1px 0 rgba(255,255,255,.6);
+  display:flex;align-items:center;gap:14px;padding:0 18px}
+.bar u{flex:1;height:8px;border-radius:4px;background:var(--chip);text-decoration:none}
+.bar em{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+.loose{position:absolute;border-radius:15px;background:var(--card);
+  border:1px solid var(--cardbrd);backdrop-filter:blur(16px) saturate(170%);
+  box-shadow:0 22px 46px -20px var(--sh), inset 0 1px 0 rgba(255,255,255,.6);
+  padding:16px 18px}
+.loose b{display:block;height:8px;border-radius:4px;background:var(--chip);margin-bottom:10px}
+.loose s{display:block;height:7px;border-radius:4px;background:var(--chip);opacity:.65;text-decoration:none}
+</style></head>
+<body>
+<div class="amb"></div>
+<div class="loose" style="right:352px;top:104px;  width:196px;height:88px;transform:rotate(-11deg)"><b style="width:74%"></b><s style="width:50%"></s></div>
+<div class="loose" style="right:398px;top:274px;  width:212px;height:92px;transform:rotate(8deg)"><b style="width:58%"></b><s style="width:76%"></s></div>
+<div class="loose" style="right:340px;top:434px;  width:184px;height:84px;transform:rotate(-5deg)"><b style="width:80%"></b><s style="width:44%"></s></div>
+<div class="stack">
+  <div class="bar"><u style="flex:0 0 138px"></u><em></em></div>
+  <div class="bar"><u style="flex:0 0 118px"></u><em></em></div>
+  <div class="bar"><u style="flex:0 0 156px"></u><em></em></div>
+  <div class="bar"><u style="flex:0 0 104px"></u><em></em></div>
+</div>
+<div class="wrap">
+  <div class="mark"><i></i><i></i><i></i></div>
+  <h1>declutter</h1>
+  <p>Teach your AI agent to tidy your machine</p>
+  <div class="mono"><b>npx</b> skills add vamgan/declutter</div>
+</div>
+</body></html>
