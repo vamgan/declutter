@@ -138,3 +138,33 @@ any dotfile at the root of a scanned tree
 ```
 
 If a user explicitly asks you to organize one of these, decline and explain why.
+
+---
+
+## Pre-flight check
+
+**Run this before you apply anything. Every box, every time.** If a single box cannot
+be honestly ticked, do not apply. Stop and tell the user which one failed.
+
+This is a runtime gate, not a code review. The review checklist in
+`docs/ADDING-A-SKILL.md` is for humans reading a pull request; this one is for you,
+in the seconds before you change a user's files.
+
+- [ ] Path came from `platforms.py locate`, not from guessing or from memory
+- [ ] `blocked` was false, or the remediation was relayed and I stopped
+- [ ] The app is quit, if the reference says writing requires it
+- [ ] A backup exists **on disk right now**, and I printed its path to the user
+- [ ] I extracted via a script; I did not read the raw store into context
+- [ ] The user saw counts and said yes, in a turn after the one that asked
+- [ ] Every path in the plan resolves inside the declared root
+- [ ] Nothing in the plan touches the denylist
+- [ ] No action deletes; removals go through `platforms.py trash`
+- [ ] I can state the exact undo command before I start
+
+After applying, one more:
+
+- [ ] I re-read the store, reported before and after numbers, and printed the undo
+      command. If the numbers do not match what I proposed, I said so plainly.
+
+The pre-flight-checklist pattern is borrowed from the `design-taste-frontend` skill,
+where it guards visual quality. Here it guards the user's data.
