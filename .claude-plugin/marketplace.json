@@ -1,0 +1,28 @@
+{
+  "name": "declutter",
+  "owner": {
+    "name": "vamgan"
+  },
+  "metadata": {
+    "description": "Skills that organize the apps and files on your machine",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "declutter",
+      "source": {
+        "source": "github",
+        "repo": "vamgan/declutter"
+      },
+      "description": "Organize browsers, downloads, desktop, and notes. Backs up first, shows you counts, waits for approval, and hands you the undo command. Adding support for a new app is one markdown file.",
+      "version": "0.1.0",
+      "author": {
+        "name": "vamgan"
+      },
+      "repository": "https://github.com/vamgan/declutter",
+      "license": "MIT",
+      "keywords": ["organization", "cleanup", "bookmarks", "files", "notes", "productivity"],
+      "category": "productivity"
+    }
+  ]
+}
