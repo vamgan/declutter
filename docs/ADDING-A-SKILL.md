@@ -16,6 +16,10 @@ that category covers it immediately. No new skill, no new code.
 | `scripts/platforms.py`, the family table | where the data lives, on each platform |
 | `scripts/platforms.py`, `PROCESS_NAMES` | what the running process is called |
 
+Then run `python3 scripts/sync-skills.py sync`. That regenerates the vendored copies
+inside each skill and updates the browser count and list that the README and the site
+publish, so nothing has to be remembered by hand. CI fails if you skip it.
+
 **All three, or none.** Registering a path without a process name is the dangerous
 half-addition: `running()` returns `None`, so a skill cannot tell the app is open, and
 a browser that rewrites its store on exit will clobber the change. Opera shipped in
