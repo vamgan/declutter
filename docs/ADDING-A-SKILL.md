@@ -26,8 +26,9 @@ a browser that rewrites its store on exit will clobber the change. Opera shipped
 exactly that state until a test caught it. A test now enforces the pairing, but the
 test only helps if you know why it is there.
 
-Vivaldi was added this way. It is a Chromium browser, so it keeps bookmarks in the
-same JSON format as Chrome, and it needed no new skill at all.
+Every browser this repo supports beyond the first one was added this way. Most of them
+are built on Chromium, which means they store bookmarks in exactly the same JSON format
+as Chrome does, so supporting one more is a matter of saying where its copy lives.
 
 For the table row, include:
 
