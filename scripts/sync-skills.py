@@ -9,10 +9,15 @@ which is the worst failure this project could ship.
 So `references/` and `scripts/` stay the single source of truth that humans edit
 and tests run against, and this script copies what each skill needs into it.
 
-  sync    copy shared files into every skill directory
-  check   exit non-zero if any skill is out of date (used by CI)
+  sync    copy shared files into every skill directory, and refresh the
+          browser counts and lists that the README and the site publish
+  check   exit non-zero if anything is out of date (used by CI)
+
+Adding a browser should cost three lines in two files and this command.
+Anything a human has to remember to update by hand will eventually be wrong,
+which is why the published numbers are derived here rather than typed.
 """
-import argparse, filecmp, glob, hashlib, os, re, shutil, sys
+import argparse, glob, hashlib, importlib.util, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -45,6 +50,51 @@ def digest(path):
         return hashlib.sha256(fh.read()).hexdigest()
 
 
+NUMBER = {1:"One",2:"Two",3:"Three",4:"Four",5:"Five",6:"Six",7:"Seven",8:"Eight",
+          9:"Nine",10:"Ten",11:"Eleven",12:"Twelve",13:"Thirteen",14:"Fourteen"}
+
+
+def load_platforms():
+    spec = importlib.util.spec_from_file_location(
+        "platforms", os.path.join(ROOT, "scripts", "platforms.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def published(check_only):
+    """Keep the numbers the README and the site advertise equal to the code."""
+    pf = load_platforms()
+    chromium = [a.capitalize() for a in pf.CHROMIUM]
+    total = len(pf.CHROMIUM) + 1 + len(pf.FIREFOX)      # + Safari + Firefox family
+    stale = []
+
+    site_path = os.path.join(ROOT, "site", "index.html")
+    site = open(site_path, encoding="utf-8").read()
+    new_site = re.sub(r'(class="stat">)\d+(<)', r"\g<1>%d\g<2>" % total, site)
+    chips = "".join('<span class="chip">%s</span>' % a for a in chromium)
+    new_site = re.sub(r'(<dt>Chromium JSON</dt>\s*<dd>).*?(</dd>)',
+                      lambda m: m.group(1) + chips + m.group(2), new_site, flags=re.S)
+
+    readme_path = os.path.join(ROOT, "README.md")
+    readme = open(readme_path, encoding="utf-8").read()
+    new_readme = re.sub(r'\*\*\w+ browsers, one markdown file\.\*\*',
+                        "**%s browsers, one markdown file.**" % NUMBER[total], readme)
+    new_readme = re.sub(r'(\| Chromium `Bookmarks` JSON \| ).*?( \|)',
+                        lambda m: m.group(1) + " \u00b7 ".join(chromium) + m.group(2),
+                        new_readme)
+
+    for path, old, new, label in ((site_path, site, new_site, "site/index.html"),
+                                  (readme_path, readme, new_readme, "README.md")):
+        if old == new:
+            continue
+        if check_only:
+            stale.append(label + " (published browser count or list)")
+        else:
+            open(path, "w", encoding="utf-8").write(new)
+    return stale
+
+
 def run(check_only):
     stale = []
     for skill in skill_dirs():
@@ -74,15 +124,17 @@ def run(check_only):
                 else:
                     os.remove(os.path.join(skill, rel))
 
+    stale += published(check_only)
+
     if check_only:
         if stale:
             print("Vendored copies are out of date:\n  " + "\n  ".join(stale))
             print("\nRun: python3 scripts/sync-skills.py sync")
             return 1
-        print(f"All {len(skill_dirs())} skills are in sync.")
+        print(f"All {len(skill_dirs())} skills and published counts are in sync.")
         return 0
 
-    print(f"Synced {len(skill_dirs())} skills.")
+    print(f"Synced {len(skill_dirs())} skills and the published browser counts.")
     return 0
 
 

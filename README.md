@@ -142,11 +142,13 @@ skill covers every app that shares a storage format:
 
 | Format | Apps covered |
 |---|---|
-| Chromium `Bookmarks` JSON | Chrome · Brave · Edge · Arc · Chromium · Vivaldi · Opera |
+| Chromium `Bookmarks` JSON | Chrome · Brave · Edge · Chromium · Vivaldi · Arc · Opera · Whale |
 | Safari plist | Safari |
 | `places.sqlite` | Firefox · Tor Browser |
 
-**Ten browsers, one markdown file.** Adding Vivaldi took three lines and no new skill.
+**Eleven browsers, one markdown file.** Adding a browser is three lines in two files
+and one `sync` command. No new skill, no new code, and every existing browser skill
+covers it immediately.
 
 ## Platforms
 

@@ -50,6 +50,7 @@ row supports every app in it.
 | Vivaldi | `Vivaldi` | `vivaldi` | `Vivaldi\User Data` |
 | Opera | `com.operasoftware.Opera` | `opera` | `Opera Software\Opera Stable` |
 | Arc | `Arc/User Data` | not available | `Arc\User Data` |
+| Whale | `Naver/Whale` | `naver-whale` | `Naver\Naver Whale\User Data` |
 
 The bookmarks file is `<root>/<Profile>/Bookmarks`, where `<Profile>` is `Default` or
 `Profile 1`, `Profile 2`, and so on. The resolver enumerates profiles; never assume

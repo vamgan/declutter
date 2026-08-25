@@ -51,6 +51,7 @@ CHROMIUM = {
     "vivaldi":  {MAC: "Vivaldi",                    LINUX: "vivaldi",                    WINDOWS: r"Vivaldi\User Data"},
     "arc":      {MAC: "Arc/User Data",              LINUX: None,                         WINDOWS: r"Arc\User Data"},
     "opera":    {MAC: "com.operasoftware.Opera",    LINUX: "opera",                      WINDOWS: r"Opera Software\Opera Stable"},
+    "whale":    {MAC: "Naver/Whale",                LINUX: "naver-whale",                WINDOWS: r"Naver\Naver Whale\User Data"},
 }
 
 FIREFOX = {
@@ -70,6 +71,7 @@ PROCESS_NAMES = {
     "vivaldi":  {MAC: "Vivaldi",         LINUX: "vivaldi-bin",  WINDOWS: "vivaldi.exe"},
     "arc":      {MAC: "Arc",             LINUX: None,           WINDOWS: "Arc.exe"},
     "opera":    {MAC: "Opera",           LINUX: "opera",        WINDOWS: "opera.exe"},
+    "whale":    {MAC: "Whale",           LINUX: "whale",        WINDOWS: "whale.exe"},
     "firefox":  {MAC: "firefox",         LINUX: "firefox",      WINDOWS: "firefox.exe"},
     "safari":   {MAC: "Safari",          LINUX: None,           WINDOWS: None},
     "obsidian": {MAC: "Obsidian",        LINUX: "obsidian",     WINDOWS: "Obsidian.exe"},
