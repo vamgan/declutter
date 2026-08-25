@@ -69,6 +69,7 @@ PROCESS_NAMES = {
     "chromium": {MAC: "Chromium",        LINUX: "chromium",     WINDOWS: "chrome.exe"},
     "vivaldi":  {MAC: "Vivaldi",         LINUX: "vivaldi-bin",  WINDOWS: "vivaldi.exe"},
     "arc":      {MAC: "Arc",             LINUX: None,           WINDOWS: "Arc.exe"},
+    "opera":    {MAC: "Opera",           LINUX: "opera",        WINDOWS: "opera.exe"},
     "firefox":  {MAC: "firefox",         LINUX: "firefox",      WINDOWS: "firefox.exe"},
     "safari":   {MAC: "Safari",          LINUX: None,           WINDOWS: None},
     "obsidian": {MAC: "Obsidian",        LINUX: "obsidian",     WINDOWS: "Obsidian.exe"},

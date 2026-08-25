@@ -4,6 +4,8 @@
 Emits a compact JSON summary so a skill never loads a raw recursive listing.
 
   scan <root> [--max-depth N] [--min-size-mb N]
+              --max-depth 1 scans only files directly in <root>;
+              2 adds one level of subdirectories, and so on.
   plan-check <root> <plan.json>     verify every path in a plan stays inside root
 
 Refuses to touch anything on the denylist. Never follows symlinks out of root.
@@ -63,9 +65,9 @@ def scan(root, max_depth, min_size_mb):
     now = time.time()
     files, skipped = [], 0
     for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
-        depth = os.path.relpath(dirpath, root).count(os.sep) + 1
-        if os.path.relpath(dirpath, root) == ".":
-            depth = 0
+        # depth 1 is the root itself, so --max-depth 1 means "root files only"
+        rel = os.path.relpath(dirpath, root)
+        depth = 1 if rel == "." else rel.count(os.sep) + 2
         if max_depth is not None and depth >= max_depth:
             dirnames[:] = []
         dirnames[:] = [d for d in dirnames if not denied(os.path.join(dirpath, d), root)]
@@ -134,7 +136,8 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan")
     s.add_argument("root")
-    s.add_argument("--max-depth", type=int, default=None)
+    s.add_argument("--max-depth", type=int, default=None,
+                   help="1 = root files only, 2 = one level of subdirectories, etc.")
     s.add_argument("--min-size-mb", type=float, default=50.0)
     c = sub.add_parser("plan-check")
     c.add_argument("root")

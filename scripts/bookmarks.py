@@ -28,7 +28,10 @@ def canon(url):
     if host.startswith("www."):
         host = host[4:]
     path = p.path.rstrip("/") or "/"
-    return urlunsplit((p.scheme.lower().replace("http", "https"), host, path, q, ""))
+    scheme = p.scheme.lower()
+    if scheme in ("http", "https"):
+        scheme = "https"        # treat the two as the same page
+    return urlunsplit((scheme, host, path, q, ""))
 
 
 def detect(path):
@@ -52,10 +55,13 @@ def detect(path):
         return "safari"
     if head.startswith(b"SQLite format 3"):
         return "firefox"
-    if head.lstrip()[:1] in (b"{", b"["):
+    stripped = head.lstrip()
+    if stripped[:1] in (b"{", b"["):
         return "chromium"
-    if os.path.basename(path).lower().endswith(".plist"):
-        return "safari"  # XML plist
+    if stripped.startswith(b"<?xml") or stripped.startswith(b"<!DOCTYPE plist"):
+        return "safari"          # XML plist; plistlib reads both encodings
+    if not head:
+        raise SystemExit(f"bookmark store is empty: {path}")
     raise SystemExit(f"unrecognized bookmark store: {path}")
 
 
