@@ -11,7 +11,7 @@ Emits a compact JSON summary so a skill never loads a raw recursive listing.
 Refuses to touch anything on the denylist. Never follows symlinks out of root.
 Stdlib only.
 """
-import argparse, hashlib, json, os, time
+import argparse, hashlib, json, os, re, time
 from collections import defaultdict
 
 DENY_NAMES = {".ssh", ".gnupg", ".aws", ".config", ".kube", "Library"}
@@ -28,6 +28,75 @@ CATEGORIES = {
     "installer": {".dmg",".pkg",".app"},
 }
 EXT_TO_CAT = {e: c for c, exts in CATEGORIES.items() for e in exts}
+
+
+# Every sync client marks a conflict differently, and none of them clean up after
+# themselves. These are the patterns they actually write.
+CONFLICT_PATTERNS = [
+    (re.compile(r"\(([^()]*?)'s conflicted copy \d{4}-\d{2}-\d{2}\)", re.I), "Dropbox"),
+    (re.compile(r"\bconflicted copy\b", re.I),                                  "Dropbox"),
+    (re.compile(r"-[A-Za-z0-9]+'s conflicted copy", re.I),                       "Dropbox"),
+    (re.compile(r"\((?:[^()]*\s)?conflicted copy(?:\s[^()]*)?\)", re.I),        "Dropbox"),
+    (re.compile(r"-\s?[A-Za-z0-9._-]+'s\s+conflict", re.I),                     "Dropbox"),
+    (re.compile(r"\(\d+\)_conflict", re.I),                                     "Nextcloud"),
+    (re.compile(r"_conflict-\d{8}-\d{6}", re.I),                                "Nextcloud"),
+    (re.compile(r"\bconflicted version\b", re.I),                               "Box"),
+    (re.compile(r"-\s?[A-Za-z0-9._-]+\s?\(\d+\)(?=\.\w+$)"),                  None),
+    (re.compile(r"\(Case Conflict\)", re.I),                                    "Dropbox"),
+    (re.compile(r"\bconflicted\b", re.I),                                       None),
+    # OneDrive appends the machine name: "Budget-DESKTOP-A1B2C3.xlsx"
+    (re.compile(r"-(?:DESKTOP|LAPTOP|MacBook|MBP|PC)-[A-Z0-9]{4,}(?=\.[^.]*$)", re.I), "OneDrive"),
+    # Google Drive: "Budget (1).xlsx" alongside "Budget.xlsx" is handled by pairing,
+    # not by name alone, because (1) is also just a second download.
+]
+
+
+def conflict_of(name):
+    """Return the sync client that produced this name, or None.
+
+    Named conflicts only. A trailing "(1)" is ambiguous on its own and is left to
+    duplicate detection, which compares content rather than guessing from a name.
+    """
+    for pattern, client in CONFLICT_PATTERNS:
+        if pattern.search(name):
+            return client or "sync client"
+    return None
+
+
+def base_name_of(name):
+    """Strip a conflict marker to recover the name the file is competing with.
+
+    Patterns are applied to the whole filename, so any that anchor on the
+    extension still match, and the leftover separator before the dot is cleaned
+    up afterwards.
+    """
+    stripped = name
+    for pattern, _ in CONFLICT_PATTERNS:
+        stripped = pattern.sub("", stripped)
+    stem, ext = os.path.splitext(stripped)
+    stem = re.sub(r"[\s._-]+$", "", stem)
+    return stem + ext
+
+
+CLOUD_ROOTS = {
+    "iCloud Drive": ("Mobile Documents", "iCloud"),
+    "Dropbox":      ("Dropbox",),
+    "OneDrive":     ("OneDrive",),
+    "Google Drive": ("Google Drive", "GoogleDrive", "CloudStorage"),
+    "Box":          ("Box",),
+    "Nextcloud":    ("Nextcloud",),
+    "Sync":         ("Sync",),
+}
+
+
+def cloud_provider(root):
+    """Which sync service, if any, this path lives inside."""
+    real = os.path.realpath(os.path.expanduser(root))
+    for name, markers in CLOUD_ROOTS.items():
+        for marker in markers:
+            if os.sep + marker in real + os.sep or real.endswith(os.sep + marker):
+                return name
+    return None
 
 
 def denied(path, root):
@@ -82,7 +151,9 @@ def scan(root, max_depth, min_size_mb):
                 skipped += 1
                 continue
             ext = os.path.splitext(name)[1].lower()
+            conflict = conflict_of(name)
             files.append({
+                "conflict": conflict,
                 "path": os.path.relpath(full, root),
                 "name": name,
                 "ext": ext,
@@ -90,6 +161,10 @@ def scan(root, max_depth, min_size_mb):
                 "size_bytes": st.st_size,
                 "size_mb": round(st.st_size / 1e6, 2),
                 "age_days": int((now - st.st_mtime) / 86400),
+                # A zero-byte file that is not meant to be empty, or an explicit
+                # placeholder extension, means the content is not on this machine.
+                "placeholder": ext in (".icloud", ".cloud")
+                               or (st.st_size == 0 and ext not in ("", ".gitkeep", ".keep")),
             })
 
     by_cat, by_age = defaultdict(lambda: {"count": 0, "size_mb": 0.0}), defaultdict(int)
@@ -114,8 +189,34 @@ def scan(root, max_depth, min_size_mb):
                 pass
     dupes = {k: v for k, v in groups.items() if len(v) > 1}
 
+    # Pair each conflicted copy with the original it is competing against.
+    by_name = {}
+    for f in files:
+        by_name.setdefault(os.path.join(os.path.dirname(f["path"]), f["name"]), f)
+    conflicts = []
+    for f in files:
+        if not f["conflict"]:
+            continue
+        original = os.path.join(os.path.dirname(f["path"]), base_name_of(f["name"]))
+        match = by_name.get(original)
+        conflicts.append({
+            "copy": f["path"],
+            "client": f["conflict"],
+            "size_mb": f["size_mb"],
+            "age_days": f["age_days"],
+            "original": match["path"] if match else None,
+            "same_content": bool(match) and f["size_bytes"] == match["size_bytes"],
+        })
+
+    placeholders = [f["path"] for f in files if f["placeholder"]]
+
     return {
         "root": root,
+        "cloud_provider": cloud_provider(root),
+        "conflicted_copies": len(conflicts),
+        "conflicts": conflicts[:30],
+        "placeholders_not_downloaded": len(placeholders),
+        "placeholder_examples": placeholders[:10],
         "total_files": len(files),
         "total_size_mb": round(sum(f["size_mb"] for f in files), 2),
         "skipped_denied_or_symlink": skipped,

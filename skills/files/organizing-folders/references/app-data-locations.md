@@ -94,6 +94,29 @@ Bookmarks live in `places.sqlite`, table `moz_bookmarks` joined to `moz_places`.
 | Downloads | `~/Downloads` | `%USERPROFILE%\Downloads` |
 | Documents | `~/Documents` | `%USERPROFILE%\Documents` |
 
+### Cloud drives
+
+Sync folders are ordinary directories, so the same skill covers them. `scan_tree.py`
+reports which provider a path belongs to.
+
+| Provider | Where it usually lives |
+|---|---|
+| iCloud Drive | `~/Library/Mobile Documents/`, and `~/iCloud Drive` |
+| Dropbox | `~/Dropbox` |
+| OneDrive | `~/OneDrive`, `%USERPROFILE%\OneDrive` |
+| Google Drive | `~/Google Drive`, `~/Library/CloudStorage/GoogleDrive-*` |
+| Box | `~/Box` |
+| Nextcloud | `~/Nextcloud` |
+
+Two hazards, both handled by `scan_tree.py`:
+
+- **Placeholders.** Evicted files are left as stubs. Acting on one destroys its
+  content. Reported as `placeholders_not_downloaded`.
+- **Conflicted copies.** Every client names them differently and none clean up after
+  themselves. Reported as `conflicts`, each paired with the original it competes with
+  and flagged `same_content` so identical copies can be separated from ones holding
+  work that exists nowhere else.
+
 - **Permission:** Full Disk Access on macOS for all three. Nothing on Linux or Windows.
 - **Parser:** `scripts/scan_tree.py`
 - **Deletion:** never `rm`. Use `python3 scripts/platforms.py trash <path>`, which
