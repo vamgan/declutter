@@ -210,3 +210,38 @@ class TestManifests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPublishedCountsMatchCode(unittest.TestCase):
+    """The README and the site make a numeric claim. Claims drift; tests do not.
+
+    Opera was added to the code and both the site and the README kept
+    advertising the old number until this test existed.
+    """
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "platforms", os.path.join(ROOT, "scripts", "platforms.py"))
+        self.platforms = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.platforms)
+        self.expected = (len(self.platforms.CHROMIUM)
+                         + 1                              # Safari
+                         + len(self.platforms.FIREFOX))   # Firefox and Tor
+
+    def test_site_browser_count_matches_code(self):
+        site = read(os.path.join(ROOT, "site", "index.html"))
+        m = re.search(r'class="stat">(\d+)<', site)
+        self.assertIsNotNone(m, "site no longer states a browser count")
+        self.assertEqual(int(m.group(1)), self.expected)
+
+    def test_readme_browser_count_matches_code(self):
+        words = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve"}
+        readme = read(os.path.join(ROOT, "README.md"))
+        self.assertIn(f"**{words[self.expected]} browsers, one markdown file.**", readme)
+
+    def test_every_chromium_app_appears_on_the_site(self):
+        site = read(os.path.join(ROOT, "site", "index.html"))
+        for app in self.platforms.CHROMIUM:
+            with self.subTest(app=app):
+                self.assertIn(app.capitalize(), site)
