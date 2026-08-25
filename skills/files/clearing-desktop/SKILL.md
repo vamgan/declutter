@@ -59,7 +59,8 @@ forgotten it exists, and that is exactly when they need to see it.
 
 ### 5. Apply and verify
 
-`mv` to `~/Documents/Desktop-Archive/<year>/`. Trash only what the user named.
+`mv` to `~/Documents/Desktop-Archive/<year>/`. For anything the user named for
+removal, use `python3 scripts/platforms.py trash <path>`. Never `rm`.
 
 ## Never
 

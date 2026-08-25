@@ -21,19 +21,21 @@ So: this skill leans heavily on proposing and rarely on deleting.
 ### 1. Find the vault
 
 ```bash
-cat ~/Library/Application\ Support/obsidian/obsidian.json
+python3 scripts/platforms.py locate obsidian
 ```
 
-Vault paths are under `vaults`. A vault in
-`~/Library/Mobile Documents/iCloud~md~obsidian/` is iCloud-synced — see step 2.
+Reads Obsidian's own config on macOS, Linux, or Windows and returns every vault path.
 
-### 2. Check for iCloud, and stop if files are not downloaded
+### 2. Check for cloud placeholders, and stop if files are not downloaded
 
-iCloud keeps evicted files as zero-byte `.icloud` placeholders. Acting on those
-**destroys content**:
+Cloud sync clients keep evicted files as zero-byte placeholders. Acting on those
+**destroys content**. Check whichever applies to the vault's location:
 
 ```bash
+# iCloud on macOS
 find "<vault>" -name "*.icloud" | head
+# OneDrive / Dropbox on any platform: zero-byte .md files are the tell
+find "<vault>" -name "*.md" -size 0 | head
 ```
 
 If any exist, tell the user to download the vault fully before continuing, and stop.

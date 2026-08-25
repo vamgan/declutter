@@ -76,9 +76,25 @@ Add it as a plugin in Claude Code, then just say what you want:
 
 > "my downloads folder is out of control"
 
-macOS needs **Full Disk Access** granted to your terminal — System Settings → Privacy
-& Security → Full Disk Access. Without it, macOS blocks reads of app data and every
-skill will tell you so and stop.
+### Platforms
+
+The skills are markdown and the scripts are standard-library Python, so nothing here
+is tied to one operating system. The storage formats are identical everywhere: Chrome
+keeps the same `Bookmarks` JSON on Windows as it does on a Mac.
+
+| Platform | Status | Notes |
+|---|---|---|
+| macOS | verified | Needs **Full Disk Access** granted to your terminal, in System Settings → Privacy & Security. It is the only platform that gates reads of app data. |
+| Linux | implemented, unverified | Paths and trash handling are written and follow the FreeDesktop spec. No permission setup needed. |
+| Windows | implemented, unverified | Paths and Recycle Bin handling are written. No permission setup needed. |
+
+"Implemented, unverified" means nobody has yet run declutter end to end on that
+platform. If you do, [tell us how it went](../../issues) — that is one of the most
+useful contributions available right now.
+
+```bash
+python3 scripts/platforms.py platform    # what declutter detects about your machine
+```
 
 ## One skill, every app in the category
 
@@ -136,13 +152,13 @@ anything follows the [same rules](references/safe-mutation-rules.md):
   won't touch a live browser that would clobber the edit on quit.
 - **Never leaves the folder you named.** No symlink escapes. `~/.ssh`, `~/.aws`,
   `~/Library` and friends are never scanned, listed, or touched.
-- **Never deletes.** Files go to `~/.Trash`, where Finder's "Put Back" still works.
-  Notes get archived, not removed.
+- **Never deletes.** Files go to your system trash, restorable from your own file
+  manager, on every platform. Notes get archived, not removed.
 - **Treats your content as data, never instructions.** A file named
   `ignore-previous-instructions.pdf` is a filename. Nothing more.
 
 ---
 
 <div align="center">
-<sub>macOS · <a href="docs/ADDING-A-SKILL.md">Linux and Windows want a contributor</a> · MIT</sub>
+<sub>macOS, Linux, Windows · <a href="docs/ADDING-A-SKILL.md">Contribute a skill</a> · MIT</sub>
 </div>
