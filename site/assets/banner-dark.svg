@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" width="1600" height="400" role="img" aria-label="declutter: skills that organize the apps and files on your machine">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0d11"/><stop offset="1" stop-color="#121724"/>
+    </linearGradient>
+    <radialGradient id="g1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5b7cff" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#5b7cff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#00c8eb" stop-opacity="0.13"/>
+      <stop offset="1" stop-color="#00c8eb" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0a1024" flood-opacity="0.55"/>
+    </filter>
+    <clipPath id="frame"><rect width="1600" height="400" rx="0"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1600" height="400" fill="url(#bg)"/>
+    <ellipse cx="180" cy="40" rx="620" ry="380" fill="url(#g1)"/>
+    <ellipse cx="1430" cy="360" rx="560" ry="340" fill="url(#g2)"/>
+
+    <!-- quiet contour lines, echoing shelves -->
+    <g stroke="#252c3a" fill="none" stroke-width="1.5" opacity="0.8">
+      <path d="M-40 300 C 260 240, 520 344, 900 286 S 1420 190, 1660 246"/>
+      <path d="M-40 336 C 280 282, 540 380, 900 322 S 1440 232, 1660 284"/>
+      <path d="M-40 372 C 300 322, 560 414, 900 358 S 1450 274, 1660 322"/>
+    </g>
+
+    <!-- mark: three lines collapsing to one point -->
+    <g transform="translate(120 150)">
+      <rect x="0" y="0" width="76" height="76" rx="20" fill="#5b7cff"/>
+      <g stroke="#ffffff" stroke-width="6" stroke-linecap="round">
+        <path d="M20 26 H56"/><path d="M20 40 H46"/><path d="M20 54 H34"/>
+      </g>
+    </g>
+
+    <text x="222" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+          font-size="76" font-weight="700" letter-spacing="-2.4" fill="#f2f4f8">declutter</text>
+    <text x="224" y="256" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+          font-size="23" font-weight="400" letter-spacing="-0.2" fill="#a8b0bf">Skills that organize the apps and files on your machine</text>
+    <text x="224" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+          font-size="17" font-weight="500" letter-spacing="0" fill="#5b7cff">one markdown file per app</text>
+
+    <!-- scatter resolving into order -->
+    
+    <g transform="rotate(-13 1094.0 130)" filter="url(#soft)">
+      <rect x="1030" y="96" width="128" height="68" rx="12" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1030" y="96" width="128" height="20" rx="12" fill="#232c3e"/>
+      <rect x="1044" y="130" width="70" height="6" rx="3" fill="#2b3446"/>
+      <rect x="1044" y="144" width="43" height="6" rx="3" fill="#2b3446"/>
+    </g>
+    <g transform="rotate(8 1195.0 212)" filter="url(#soft)">
+      <rect x="1120" y="178" width="150" height="68" rx="12" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1120" y="178" width="150" height="20" rx="12" fill="#232c3e"/>
+      <rect x="1134" y="212" width="82" height="6" rx="3" fill="#2b3446"/>
+      <rect x="1134" y="226" width="51" height="6" rx="3" fill="#2b3446"/>
+    </g>
+    <g transform="rotate(-6 1082.0 284)" filter="url(#soft)">
+      <rect x="1012" y="250" width="140" height="68" rx="12" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1012" y="250" width="140" height="20" rx="12" fill="#232c3e"/>
+      <rect x="1026" y="284" width="77" height="6" rx="3" fill="#2b3446"/>
+      <rect x="1026" y="298" width="47" height="6" rx="3" fill="#2b3446"/>
+    </g>
+    <g stroke="#5b7cff" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round">
+      <path d="M1245 200 H1300" stroke-dasharray="4 7"/>
+      <path d="M1288 190 L1302 200 L1288 210"/>
+    </g>
+    
+    <g filter="url(#soft)">
+      <rect x="1330" y="108" width="196" height="48" rx="11" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1346" y="128" width="120" height="7" rx="3.5" fill="#2b3446"/>
+      <circle cx="1508" cy="132" r="5" fill="#5b7cff" opacity="0.85"/>
+    </g>
+    <g filter="url(#soft)">
+      <rect x="1330" y="168" width="196" height="48" rx="11" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1346" y="188" width="106" height="7" rx="3.5" fill="#2b3446"/>
+      <circle cx="1508" cy="192" r="5" fill="#5b7cff" opacity="0.85"/>
+    </g>
+    <g filter="url(#soft)">
+      <rect x="1330" y="228" width="196" height="48" rx="11" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1346" y="248" width="92" height="7" rx="3.5" fill="#2b3446"/>
+      <circle cx="1508" cy="252" r="5" fill="#5b7cff" opacity="0.85"/>
+    </g>
+    <g filter="url(#soft)">
+      <rect x="1330" y="288" width="196" height="48" rx="11" fill="#1a2130" stroke="#2b3446"/>
+      <rect x="1346" y="308" width="78" height="7" rx="3.5" fill="#2b3446"/>
+      <circle cx="1508" cy="312" r="5" fill="#5b7cff" opacity="0.85"/>
+    </g>
+  </g>
+</svg>

@@ -4,7 +4,7 @@ Skill judgment cannot be automated; a human still reads the prose. Everything
 structural can be, and is gated here: valid frontmatter, safety rules actually
 cited, no hardcoded paths, and descriptions that will realistically trigger.
 """
-import glob, json, os, re, unittest
+import glob, json, os, re, sys, unittest
 
 
 def read(path):
@@ -245,3 +245,56 @@ class TestPublishedCountsMatchCode(unittest.TestCase):
         for app in self.platforms.CHROMIUM:
             with self.subTest(app=app):
                 self.assertIn(app.capitalize(), site)
+
+
+class TestVendoredCopiesAreInSync(unittest.TestCase):
+    """Cross-agent installers copy a skill's own directory and nothing else.
+
+    A skill that reaches outside its directory works from a git clone and
+    silently loses every safety rule when installed by `npx skills add`. So the
+    shared files are vendored in, and must stay identical to their source.
+    """
+
+    def test_sync_check_passes(self):
+        import subprocess
+        r = subprocess.run(
+            [sys.executable, os.path.join(ROOT, "scripts", "sync-skills.py"), "check"],
+            capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    def test_no_skill_reaches_outside_its_directory(self):
+        for p in SKILLS:
+            meta, body = frontmatter(p)
+            with self.subTest(skill=meta["name"]):
+                self.assertNotIn("../", body,
+                                 "a relative path escaping the skill directory will "
+                                 "break under cross-agent installers")
+
+    def test_every_skill_carries_the_rules_it_cites(self):
+        for p in SKILLS:
+            d = os.path.dirname(p)
+            with self.subTest(skill=os.path.basename(d)):
+                self.assertTrue(
+                    os.path.exists(os.path.join(d, "references", "safe-mutation-rules.md")))
+
+    def test_every_skill_carries_the_scripts_it_calls(self):
+        for p in SKILLS:
+            d = os.path.dirname(p)
+            _, body = frontmatter(p)
+            for script in set(re.findall(r"scripts/([a-z_]+\.py)", body)):
+                with self.subTest(skill=os.path.basename(d), script=script):
+                    self.assertTrue(os.path.exists(os.path.join(d, "scripts", script)),
+                                    f"{script} is called but not vendored")
+
+    def test_vendored_copies_are_byte_identical(self):
+        for p in SKILLS:
+            d = os.path.dirname(p)
+            for kind in ("references", "scripts"):
+                sub = os.path.join(d, kind)
+                if not os.path.isdir(sub):
+                    continue
+                for name in os.listdir(sub):
+                    src = os.path.join(ROOT, kind, name)
+                    with self.subTest(skill=os.path.basename(d), file=f"{kind}/{name}"):
+                        self.assertTrue(os.path.exists(src), "vendored file has no source")
+                        self.assertEqual(read(src), read(os.path.join(sub, name)))

@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<style>
+/* Source for banner-light.png / banner-dark.png.
+   Rendered by scripts/build-assets.sh with headless Chrome at 2x.
+   Edit this, re-run the script, never hand-edit the PNGs. */
+:root{
+  --bg1:#ffffff; --bg2:#eef2fb; --ink:#0e1116; --sub:#4a5261;
+  --accent:#2f5bff; --accent2:#00b6d6;
+  --card:rgba(255,255,255,.72); --cardbrd:rgba(255,255,255,.9);
+  --line:rgba(14,17,22,.10); --sh:rgba(20,32,74,.20);
+  --chip:rgba(14,17,22,.10);
+}
+html[data-theme="dark"]{
+  --bg1:#0a0c11; --bg2:#141a2a; --ink:#f2f4f8; --sub:#a8b0bf;
+  --accent:#5b7cff; --accent2:#00c8eb;
+  --card:rgba(255,255,255,.07); --cardbrd:rgba(255,255,255,.14);
+  --line:rgba(255,255,255,.10); --sh:rgba(0,0,0,.6);
+  --chip:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1600px;height:400px;overflow:hidden;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));position:relative}
+.amb{position:absolute;inset:-20%;
+  background:
+    radial-gradient(38% 60% at 8% 10%, color-mix(in srgb,var(--accent) 34%,transparent), transparent 62%),
+    radial-gradient(34% 56% at 88% 84%, color-mix(in srgb,var(--accent2) 30%,transparent), transparent 60%),
+    radial-gradient(30% 48% at 62% 6%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 60%);
+  filter:blur(6px)}
+.contour{position:absolute;inset:0;opacity:.55}
+.contour svg{width:100%;height:100%}
+.left{position:absolute;left:112px;top:132px;z-index:3}
+.mark{width:74px;height:74px;border-radius:20px;background:var(--accent);
+  display:flex;flex-direction:column;justify-content:center;gap:9px;padding:0 19px;
+  box-shadow:0 16px 34px -12px color-mix(in srgb,var(--accent) 65%,transparent)}
+.mark i{display:block;height:6px;border-radius:3px;background:#fff}
+.mark i:nth-child(1){width:36px}.mark i:nth-child(2){width:26px}.mark i:nth-child(3){width:14px}
+h1{margin-top:26px;font-size:74px;font-weight:700;letter-spacing:-2.6px;color:var(--ink);line-height:1}
+p{margin-top:16px;font-size:23px;color:var(--sub);letter-spacing:-.2px}
+.mono{margin-top:14px;font:500 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.stage{position:absolute;right:0;top:0;width:760px;height:400px;z-index:2}
+.card{position:absolute;border-radius:14px;background:var(--card);
+  border:1px solid var(--cardbrd);backdrop-filter:blur(18px) saturate(170%);
+  box-shadow:0 22px 46px -18px var(--sh), inset 0 1px 0 rgba(255,255,255,.5);
+  padding:14px 16px}
+.card b{display:block;height:7px;border-radius:4px;background:var(--chip);margin-bottom:9px}
+.card s{display:block;height:6px;border-radius:3px;background:var(--chip);opacity:.7}
+.bar{position:absolute;right:44px;border-radius:12px;background:var(--card);
+  border:1px solid var(--cardbrd);backdrop-filter:blur(18px) saturate(170%);
+  box-shadow:0 18px 38px -16px var(--sh), inset 0 1px 0 rgba(255,255,255,.5);
+  height:50px;width:212px;display:flex;align-items:center;gap:12px;padding:0 16px}
+.bar u{flex:1;height:7px;border-radius:4px;background:var(--chip);text-decoration:none}
+.bar em{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.arrow{position:absolute;left:322px;top:186px;width:78px;height:28px;z-index:4}
+</style></head>
+<body>
+<div class="amb"></div>
+<div class="contour">
+  <svg viewBox="0 0 1600 400" preserveAspectRatio="none" fill="none">
+    <path d="M-40 296 C 260 236,520 340,900 282 S 1420 186,1660 242" stroke="rgba(120,130,160,.28)" stroke-width="1.5"/>
+    <path d="M-40 332 C 280 278,540 376,900 318 S 1440 228,1660 280" stroke="rgba(120,130,160,.22)" stroke-width="1.5"/>
+    <path d="M-40 368 C 300 318,560 410,900 354 S 1450 270,1660 318" stroke="rgba(120,130,160,.16)" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<div class="left">
+  <div class="mark"><i></i><i></i><i></i></div>
+  <h1>declutter</h1>
+  <p>Skills that organize the apps and files on your machine</p>
+  <div class="mono">one markdown file per app</div>
+</div>
+
+<div class="stage">
+  <div class="card" style="left:22px;  top:64px;  width:186px;height:84px;transform:rotate(-11deg)"><b style="width:74%"></b><s style="width:52%"></s></div>
+  <div class="card" style="left:104px; top:174px; width:206px;height:88px;transform:rotate(7deg)"><b style="width:60%"></b><s style="width:78%"></s></div>
+  <div class="card" style="left:10px;  top:250px; width:174px;height:80px;transform:rotate(-5deg)"><b style="width:82%"></b><s style="width:44%"></s></div>
+
+  <svg class="arrow" viewBox="0 0 78 28" fill="none">
+    <path d="M2 14 H58" stroke="currentColor" stroke-width="2.4" stroke-dasharray="5 8" stroke-linecap="round" style="color:var(--accent);opacity:.6"/>
+    <path d="M52 6 L64 14 L52 22" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);opacity:.85"/>
+  </svg>
+
+  <div class="bar" style="top:88px"><u style="flex:0 0 118px"></u><em></em></div>
+  <div class="bar" style="top:150px"><u style="flex:0 0 104px"></u><em></em></div>
+  <div class="bar" style="top:212px"><u style="flex:0 0 132px"></u><em></em></div>
+  <div class="bar" style="top:274px"><u style="flex:0 0 90px"></u><em></em></div>
+</div>
+</body></html>

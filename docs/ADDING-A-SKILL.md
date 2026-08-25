@@ -69,11 +69,25 @@ Structure that works:
    vagueness produces vague results.
 5. **Never.** The specific ways this app can be damaged.
 
-### Reaching shared files
+### Shared files are vendored, not referenced
 
-Your skill's absolute base directory is provided when the skill loads. The plugin root
-is three levels up, so shared files are at `../../../references/` and
-`../../../scripts/` relative to it.
+Write `references/safe-mutation-rules.md` and `scripts/platforms.py` as if they sit
+inside your skill directory, because they do.
+
+**Never use a relative path that leaves your skill directory.** Cross-agent installers
+copy a skill's own folder and nothing else. A skill reading `../../../references/`
+works from a git clone and silently loses every safety rule when someone installs it
+with `npx skills add`, which is the worst failure this project could ship. A test
+rejects any `../` in a skill body.
+
+Edit the canonical copies at the repository root, then run:
+
+```bash
+python3 scripts/sync-skills.py sync
+```
+
+That copies the shared rules into every skill, plus whichever scripts your `SKILL.md`
+actually mentions. CI fails if the copies drift, so commit them.
 
 ### Scripts
 

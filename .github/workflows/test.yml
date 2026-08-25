@@ -20,5 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Check vendored skill copies are in sync
+        run: python scripts/sync-skills.py check
       - name: Run tests
         run: python -m unittest discover -s tests -v
