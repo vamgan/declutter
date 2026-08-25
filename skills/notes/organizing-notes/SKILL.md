@@ -1,12 +1,15 @@
 ---
-name: organizing-obsidian-vault
-description: Use when the user wants to clean up, organize, or audit an Obsidian vault or a folder of markdown notes — orphans, duplicates, untitled scratch notes, tag and folder structure. Triggers on "my notes are a mess", "organize my vault", "find orphan notes", "clean up my markdown".
+name: organizing-notes
+description: Use when the user wants to clean up, organize, or audit their notes — an Obsidian vault, a folder of markdown files, or any note collection. Finds orphans, near-duplicates, untitled scratch notes, and tag sprawl. Triggers on "my notes are a mess", "organize my vault", "find orphan notes", "clean up my markdown", "I have too many notes", "duplicate notes".
 ---
 
-# Organizing an Obsidian Vault
+# Organizing Notes
 
-Read `references/safe-mutation-rules.md` and follow that workflow. This file
-adds only what is specific to notes.
+Read `references/safe-mutation-rules.md` and follow that workflow. This file adds only
+what is specific to notes.
+
+Works on an **Obsidian vault or any folder of markdown files**. The judgment is the
+same either way; only step 1 differs.
 
 ## Why notes are harder than files
 
@@ -18,13 +21,20 @@ So: this skill leans heavily on proposing and rarely on deleting.
 
 ## Workflow
 
-### 1. Find the vault
+### 1. Find the notes
+
+If the user has Obsidian, read its own config to get every vault path:
 
 ```bash
 python3 scripts/platforms.py locate obsidian
 ```
 
-Reads Obsidian's own config on macOS, Linux, or Windows and returns every vault path.
+Otherwise use the folder they named. Any directory of `.md` files works. State the
+absolute path back to them before going further.
+
+**Apple Notes is not supported yet.** Its store is protobuf inside SQLite and writes
+must go through AppleScript. If that is what they mean, say so plainly rather than
+reaching for the database.
 
 ### 2. Check for cloud placeholders, and stop if files are not downloaded
 

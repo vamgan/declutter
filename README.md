@@ -45,13 +45,13 @@ about if you want to see the shape of it first.
 npx skills add vamgan/declutter
 ```
 
-Installs all four skills wherever your agent looks for them. Works with **Claude Code,
+Installs all three skills wherever your agent looks for them. Works with **Claude Code,
 Cursor, Codex, Gemini CLI, OpenCode, and Windsurf**.
 
 One skill only:
 
 ```bash
-npx skills add vamgan/declutter --skill "sorting-downloads"
+npx skills add vamgan/declutter --skill "organizing-folders"
 ```
 
 ### Claude Code plugin
@@ -88,20 +88,21 @@ python3 scripts/platforms.py platform    # what declutter detects about your mac
 
 ## Skills
 
-| Skill | Category | Install name | What it does |
+One skill per category. Each covers its whole domain rather than one app or one
+folder, so the set stays small as coverage grows.
+
+| Skill | Category | Install name | Works on |
 |---|---|---|---|
-| Bookmarks | browser | `organizing-bookmarks` | Dedupes across tracking parameters, `www`, and trailing slashes. Prunes dead links. Flattens folder sprawl. |
-| Downloads | files | `sorting-downloads` | Finds byte-identical duplicates, archives stale files, groups by kind or by project. |
-| Desktop | files | `clearing-desktop` | Buckets by age, names every multi-gigabyte item individually, leaves this week's work alone. |
-| Notes | notes | `organizing-obsidian-vault` | Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking `[[wikilinks]]`. |
+| Bookmarks | browser | `organizing-bookmarks` | Ten browsers. Dedupes across tracking parameters, `www`, and trailing slashes. Prunes dead links. Flattens folder sprawl. |
+| Folders | files | `organizing-folders` | Downloads, Desktop, Documents, or any folder you name. Finds byte-identical duplicates, archives stale files, groups by kind or project. |
+| Notes | notes | `organizing-notes` | An Obsidian vault or any folder of markdown. Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking `[[wikilinks]]`. |
 
 ### Which one should I use?
 
-Whichever matches the mess. They do not overlap, and your agent picks the right one
-from what you say, so you can just describe the problem.
+Just describe the mess. They do not overlap, and your agent picks from what you say.
 
-If you want the biggest visible win first, run `sorting-downloads`. It is the one that
-usually recovers gigabytes.
+If you want the biggest visible win first, point `organizing-folders` at Downloads.
+That is the one that usually recovers gigabytes.
 
 ## What a run looks like
 
