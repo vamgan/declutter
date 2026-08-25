@@ -132,9 +132,12 @@ code,pre{font-family:var(--mono)}
   border:1px solid var(--glass-brd);
   box-shadow:inset 0 1px 0 var(--glass-hi), var(--glass-sh);
 }
+/* Shape system, applied everywhere:
+     anything you click is a pill, any surface holding content is 12-14px,
+     any code surface is 10px. */
 .btn{
   display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
-  height:40px; padding:0 18px; border-radius:var(--radius);
+  height:40px; padding:0 20px; border-radius:999px;
   font-size:14px; font-weight:550; text-decoration:none;
   border:1px solid transparent; transition:transform .12s, background .15s, border-color .15s;
 }
@@ -176,7 +179,8 @@ h1{font-size:clamp(44px,6.6vw,82px); margin-top:26px}
 /* ---------- hero rotator: one scene per skill ---------- */
 .rotator{max-width:1180px; margin:0 auto; position:relative}
 
-.tabs{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:26px}
+.tabs{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:26px; align-items:center}
+.tabnote{flex-basis:100%; text-align:center; margin-top:4px; font-size:12.5px; color:var(--fg-3)}
 .tab{display:inline-flex; align-items:center; gap:8px; cursor:pointer;
   font:500 13.5px/1 inherit; color:var(--fg-2); padding:9px 15px; border-radius:999px;
   background:var(--glass); border:1px solid var(--glass-brd);
@@ -464,6 +468,7 @@ footer a:hover{color:var(--fg)}
         <button role="tab" class="tab" data-scene="1"><i class="k"></i>Downloads</button>
         <button role="tab" class="tab" data-scene="2"><i class="k"></i>Desktop</button>
         <button role="tab" class="tab" data-scene="3"><i class="k"></i>Notes</button>
+        <span class="tabnote">Downloads and Desktop are the same skill, pointed at different folders.</span>
       </div>
 
       <div class="scenes">
@@ -550,7 +555,7 @@ footer a:hover{color:var(--fg)}
     <div class="ways rise">
       <div class="way">
         <h3>Any agent</h3>
-        <p>Installs the four skills wherever your agent looks for them.</p>
+        <p>Installs all three skills wherever your agent looks for them.</p>
         <div class="agents"><span>Claude Code</span><span>Cursor</span><span>Codex</span><span>Gemini CLI</span><span>OpenCode</span><span>Windsurf</span></div>
         <div class="cmd">
           <code id="c1">npx skills add vamgan/declutter</code>
@@ -585,7 +590,7 @@ footer a:hover{color:var(--fg)}
 <section class="alt" id="skills">
   <div class="wrap">
     <div class="sec-head rise">
-      <h2>Four skills, one habit.</h2>
+      <h2>Three skills, one habit.</h2>
       <p>Every run backs up first, shows you counts, and waits. You get the undo command when it finishes.</p>
     </div>
     <div class="bento rise">
@@ -595,22 +600,17 @@ footer a:hover{color:var(--fg)}
         <p>Dedupes across tracking parameters, <code>www</code>, and trailing slashes. Prunes dead links. Flattens folder sprawl.</p>
         <div class="stat">10<span>browsers covered by this one file</span></div>
       </div>
-      <div class="cell">
+      <div class="cell span2">
         <div class="cat">files</div>
-        <h3>sorting&#8209;downloads</h3>
-        <p>Finds byte-identical duplicates, archives stale files, groups by kind or by project.</p>
-      </div>
-      <div class="cell">
-        <div class="cat">files</div>
-        <h3>clearing&#8209;desktop</h3>
-        <p>Buckets by age and names every multi-gigabyte item individually. Leaves this week's work alone.</p>
+        <h3>organizing&#8209;folders</h3>
+        <p>Downloads, Desktop, Documents, or any folder you name. Finds byte-identical duplicates, archives what has gone stale, and groups what is left by kind or by project. Names every multi-gigabyte item individually and leaves this week's work alone.</p>
       </div>
       <div class="cell span2">
         <div class="cat">notes</div>
-        <h3>organizing&#8209;obsidian&#8209;vault</h3>
-        <p>Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking your <code>[[wikilinks]]</code>. Never merges two notes without asking about that specific pair.</p>
+        <h3>organizing&#8209;notes</h3>
+        <p>An Obsidian vault or any folder of markdown. Finds orphans, stubs, and near-duplicates. Consolidates tag sprawl without breaking your <code>[[wikilinks]]</code>, and never merges two notes without asking about that specific pair.</p>
       </div>
-    </div>
+</div>
   </div>
 </section>
 

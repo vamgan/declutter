@@ -34,7 +34,7 @@ def frontmatter(path):
 
 class TestSkillsExist(unittest.TestCase):
     def test_skills_are_present(self):
-        self.assertGreaterEqual(len(SKILLS), 4)
+        self.assertGreaterEqual(len(SKILLS), 3)
 
     def test_every_skill_sits_in_a_category(self):
         for p in SKILLS:
@@ -84,14 +84,15 @@ class TestTriggering(unittest.TestCase):
     """
 
     PHRASES = {
-        "my bookmarks are a mess":              "organizing-bookmarks",
-        "dedupe my bookmarks":                  "organizing-bookmarks",
-        "my downloads folder is out of control": "sorting-downloads",
-        "clean up downloads":                   "sorting-downloads",
-        "my desktop is covered in files":       "clearing-desktop",
-        "organize my desktop":                  "clearing-desktop",
-        "find orphan notes":                    "organizing-obsidian-vault",
-        "organize my vault":                    "organizing-obsidian-vault",
+        "my bookmarks are a mess":               "organizing-bookmarks",
+        "dedupe my bookmarks":                   "organizing-bookmarks",
+        "my downloads folder is a mess":         "organizing-folders",
+        "clean up my desktop":                   "organizing-folders",
+        "organize this folder":                  "organizing-folders",
+        "find duplicate files":                  "organizing-folders",
+        "find orphan notes":                     "organizing-notes",
+        "organize my vault":                     "organizing-notes",
+        "duplicate notes":                       "organizing-notes",
     }
 
     def setUp(self):
