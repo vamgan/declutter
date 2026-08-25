@@ -34,13 +34,13 @@ def frontmatter(path):
 
 class TestSkillsExist(unittest.TestCase):
     def test_skills_are_present(self):
-        self.assertGreaterEqual(len(SKILLS), 3)
+        self.assertGreaterEqual(len(SKILLS), 4)
 
     def test_every_skill_sits_in_a_category(self):
         for p in SKILLS:
             category = p.split(os.sep)[-3]
             with self.subTest(skill=p):
-                self.assertIn(category, {"browser", "files", "notes"})
+                self.assertIn(category, {"browser", "files", "notes", "media"})
 
 
 class TestFrontmatter(unittest.TestCase):
@@ -93,6 +93,9 @@ class TestTriggering(unittest.TestCase):
         "find orphan notes":                     "organizing-notes",
         "organize my vault":                     "organizing-notes",
         "duplicate notes":                       "organizing-notes",
+        "organize my photos":                    "organizing-photos",
+        "find duplicate photos":                 "organizing-photos",
+        "too many screenshots":                  "organizing-photos",
     }
 
     def setUp(self):

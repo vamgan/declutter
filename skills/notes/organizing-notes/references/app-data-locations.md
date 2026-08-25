@@ -125,6 +125,33 @@ Two hazards, both handled by `scan_tree.py`:
 
 ---
 
+## Category: media
+
+Photos are ordinary files, so the locations are unremarkable. What matters is that the
+**file's modified date is not when the photo was taken.** Copying, syncing, restoring a
+backup, or receiving an image through a messaging app all rewrite it.
+
+| Target | macOS | Linux | Windows |
+|---|---|---|---|
+| Pictures | `~/Pictures` | `~/Pictures` | `%USERPROFILE%\Pictures` |
+| Screenshots | wherever the user set them, `~/Desktop` by default on macOS | `~/Pictures/Screenshots` | `%USERPROFILE%\Pictures\Screenshots` |
+| Camera imports | `~/Pictures/<import folder>` | varies | `%USERPROFILE%\Pictures\Camera Roll` |
+
+- **Permission:** Full Disk Access on macOS for `~/Pictures`
+- **Parser:** `scripts/photos.py`, which reads EXIF dates, camera make and model, and
+  image dimensions straight from file headers. It never decodes an image, so there are
+  no dependencies and it behaves the same on every platform.
+
+### Apple Photos library, not supported
+
+`~/Pictures/Photos Library.photoslibrary` is a package with its own SQLite database.
+Reaching inside it corrupts the library. Photos.app must be driven through AppleScript
+instead. If a user points at one, say so and stop rather than treating it as a folder.
+
+A folder **exported** from Photos.app is an ordinary folder and is fine.
+
+---
+
 ## Category: notes
 
 ### Obsidian

@@ -28,7 +28,8 @@ ALWAYS = [
     ("scripts", "platforms.py"),
 ]
 # Anything else is pulled in only if the skill actually mentions it.
-ON_DEMAND = [("scripts", "bookmarks.py"), ("scripts", "scan_tree.py")]
+ON_DEMAND = [("scripts", "bookmarks.py"), ("scripts", "scan_tree.py"),
+              ("scripts", "photos.py")]
 
 
 def skill_dirs():

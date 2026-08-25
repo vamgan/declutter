@@ -45,7 +45,7 @@ about if you want to see the shape of it first.
 npx skills add vamgan/declutter
 ```
 
-Installs all three skills wherever your agent looks for them. Works with **Claude Code,
+Installs all four skills wherever your agent looks for them. Works with **Claude Code,
 Cursor, Codex, Gemini CLI, OpenCode, and Windsurf**.
 
 One skill only:
@@ -95,6 +95,7 @@ folder, so the set stays small as coverage grows.
 |---|---|---|---|
 | Bookmarks | browser | `organizing-bookmarks` | Every major browser. The same page saved four times under slightly different links, bookmarks that no longer go anywhere, folders holding one thing. |
 | Folders | files | `organizing-folders` | Downloads, your Desktop, a cloud drive, or any folder you name. The same file saved twice, things you have not opened in months, the huge items you forgot were there, and the conflicting copies your devices left behind. |
+| Photos | media | `organizing-photos` | A Pictures folder, a camera import, or a phone backup. Groups by when each photo was actually taken, separates screenshots from photographs, and finds duplicates and burst shots. |
 | Notes | notes | `organizing-notes` | An Obsidian vault or any folder of notes. Notes you started and never finished, two versions of the same list, tags that all mean the same thing. |
 
 ### Which one should I use?
