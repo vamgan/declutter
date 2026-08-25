@@ -506,6 +506,7 @@ footer a:hover{color:var(--fg)}
         <button role="tab" class="tab" data-scene="1"><i class="k"></i>Downloads</button>
         <button role="tab" class="tab" data-scene="2"><i class="k"></i>Desktop</button>
         <button role="tab" class="tab" data-scene="3"><i class="k"></i>Notes</button>
+        <button role="tab" class="tab" data-scene="4"><i class="k"></i>Photos</button>
         <span class="tabnote">Downloads and Desktop are the same skill, pointed at different folders.</span>
       </div>
 
@@ -573,6 +574,21 @@ footer a:hover{color:var(--fg)}
             <div class="frow"><i class="fol t"></i><span>_archive</span><em>24</em></div>
           </div>
         </div>
+        <!-- Photos: a burst and a screenshot, filed by when they were taken -->
+        <div class="scene" data-scene="4" aria-label="Photos sorted by the date they were taken">
+          <div class="mess">
+            <div class="it ph d" style="--x:2%;  --y:3%;  --w:60%; --r:-9deg"><i class="thumb"></i><span><b>IMG_4821.jpg</b><s>09:31:01</s></span><em class="tag">burst</em></div>
+            <div class="it ph d" style="--x:31%; --y:26%; --w:62%; --r:7deg"><i class="thumb g"></i><span><b>IMG_4822.jpg</b><s>09:31:02</s></span><em class="tag">burst</em></div>
+            <div class="it ph"   style="--x:0;   --y:52%; --w:58%; --r:-5deg"><i class="thumb b"></i><span><b>Screenshot 14.22</b><s>not a photo</s></span></div>
+            <div class="it ph x" style="--x:28%; --y:76%; --w:60%; --r:10deg"><i class="thumb"></i><span><b>IMG_5102.jpg</b><s>no date taken</s></span><em class="tag bad">undated</em></div>
+          </div>
+          <div class="neat">
+            <div class="frow"><i class="fol"></i><span>2025&nbsp;/&nbsp;July</span><em>212</em></div>
+            <div class="frow"><i class="fol"></i><span>2025&nbsp;/&nbsp;November</span><em>96</em></div>
+            <div class="frow"><i class="fol"></i><span>Screenshots</span><em>148</em></div>
+            <div class="frow"><i class="fol"></i><span>Undated</span><em>37</em></div>
+          </div>
+        </div>
       </div>
 
       <svg class="flow" viewBox="0 0 90 24" fill="none" aria-hidden="true">
@@ -593,7 +609,7 @@ footer a:hover{color:var(--fg)}
     <div class="ways rise">
       <div class="way">
         <h3>Any agent</h3>
-        <p>Installs all three skills wherever your agent looks for them.</p>
+        <p>Installs all four skills wherever your agent looks for them.</p>
         <div class="agents"><span>Claude Code</span><span>Cursor</span><span>Codex</span><span>Gemini CLI</span><span>OpenCode</span><span>Windsurf</span></div>
         <div class="cmd">
           <code id="c1">npx skills add vamgan/declutter</code>
@@ -628,7 +644,7 @@ footer a:hover{color:var(--fg)}
 <section class="alt" id="skills">
   <div class="wrap">
     <div class="sec-head rise">
-      <h2>Three skills, one habit.</h2>
+      <h2>Four skills, one habit.</h2>
       <p>Every run backs up first, shows you counts, and waits. You get the undo command when it finishes.</p>
     </div>
     <div class="bento rise">
@@ -642,6 +658,11 @@ footer a:hover{color:var(--fg)}
         <div class="cat">files</div>
         <h3>organizing&#8209;folders</h3>
         <p>Point it at Downloads, your Desktop, or any folder you like. It finds the same file saved twice, sets aside what you have not opened in months, and tells you about the huge things you forgot were in there. In Dropbox or iCloud it also clears out the duplicate copies your devices left behind when they disagreed.</p>
+      </div>
+      <div class="cell span2">
+        <div class="cat">media</div>
+        <h3>organizing&#8209;photos</h3>
+        <p>Your pictures, sorted by when they were actually taken rather than when the file happened to get copied. Screenshots go somewhere else entirely. It finds the identical copies and the ten near-identical shots of the same moment, and never throws a photo away.</p>
       </div>
       <div class="cell span2">
         <div class="cat">notes</div>
