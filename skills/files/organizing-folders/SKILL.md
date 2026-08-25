@@ -1,6 +1,6 @@
 ---
 name: organizing-folders
-description: Use when the user wants to clean up, sort, dedupe, or organize a folder — Downloads, Desktop, Documents, or any folder they name. Triggers on "my downloads folder is a mess", "clean up my desktop", "organize this folder", "sort my files", "find duplicate files", "my desktop is covered in files", "too many screenshots".
+description: Use when the user wants to clean up, sort, dedupe, or organize a folder — Downloads, Desktop, Documents, a cloud drive, or any folder they name. Also handles conflicted copies left behind by Dropbox, OneDrive, iCloud, and Google Drive. Triggers on "my downloads folder is a mess", "clean up my desktop", "organize this folder", "sort my files", "find duplicate files", "my desktop is covered in files", "too many screenshots", "conflicted copy", "my dropbox is a mess", "google drive is full".
 ---
 
 # Organizing a Folder
@@ -16,6 +16,7 @@ the user points at.
 
 - **No byte-identical duplicates.** `boarding-pass.pdf` and `boarding-pass(1).pdf` are
   one file.
+- **No unresolved conflicted copies**, if this folder is synced. See below.
 - **Nothing loose that is older than 90 days.** It is archived, not deleted.
 - **What remains is grouped**, one level deep, by kind or by project.
 
@@ -133,15 +134,40 @@ wrong move is felt immediately, so the bar for confirmation is higher.
 
 ### Any folder inside a cloud drive
 
-iCloud, Dropbox, OneDrive, and Google Drive keep evicted files as zero-byte
-placeholders. Acting on those **destroys content**.
+`scan` reports `cloud_provider` when the root is inside iCloud Drive, Dropbox,
+OneDrive, Google Drive, Box, or Nextcloud. Two things change when it does.
 
-```bash
-find <root> -name "*.icloud" -o -size 0 -name "*.*" | head
-```
+**Placeholders first, before anything else.** Sync clients evict files they think you
+are not using and leave a stub behind. `scan` counts these as
+`placeholders_not_downloaded`. **Acting on one destroys the content**, because you are
+moving or trashing a pointer, not a file.
 
-If placeholders exist, tell the user to download the folder fully, and stop. Moving
-files also triggers a re-sync, so say that before applying.
+If the count is above zero, tell the user which files, ask them to download the folder
+fully, and stop. Do not proceed on the ones that happen to be present.
+
+**Then conflicted copies.** This is the clutter that only exists in synced folders, and
+it is the reason to point this skill at one. Two devices edited the same file while
+offline, so the client kept both and named the loser something like
+`Budget (Sarah's conflicted copy 2025-11-03).xlsx`. Nobody ever goes back and resolves
+them.
+
+`scan` reports each one under `conflicts` with the copy, the original it competes with,
+and `same_content`. That flag decides what you may do:
+
+- **`same_content: true`** means the copy is byte-for-byte identical to the original.
+  The conflict was spurious. Safe to propose trashing, in bulk.
+- **`same_content: false`** means the two genuinely differ, and **one of them holds work
+  that exists nowhere else.** Never resolve these unattended. Show the user the pair,
+  their sizes and dates, and let them choose. If they cannot tell, propose renaming the
+  copy to something obvious rather than removing it.
+- **`original: null`** means the file the copy competed with is already gone. Leave it,
+  and suggest renaming it back to the plain name.
+
+Report the two groups separately. "9 conflicted copies, 6 identical and safe to remove,
+3 that differ and need you" is useful. A single number is not.
+
+**Moving files triggers a re-sync.** Say so before applying, because the user may be on
+a metered connection or short on space on another device.
 
 ## Judgment calls
 

@@ -156,3 +156,129 @@ class TestPlanCheck(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestConflictedCopies(unittest.TestCase):
+    """Conflicted copies are the one clutter type unique to synced folders.
+
+    Every sync client marks them differently and none clean up after themselves,
+    so the names are the only signal available.
+    """
+
+    def _name(self, n):
+        return scan_tree.conflict_of(n)
+
+    def test_dropbox_dated_conflict(self):
+        self.assertEqual(self._name("Budget (Sarah's conflicted copy 2025-11-03).xlsx"),
+                         "Dropbox")
+
+    def test_dropbox_case_conflict(self):
+        self.assertIsNotNone(self._name("Photo (Case Conflict).jpg"))
+
+    def test_onedrive_machine_suffix(self):
+        self.assertEqual(self._name("Notes-DESKTOP-A1B2C3.docx"), "OneDrive")
+
+    def test_nextcloud_conflict(self):
+        self.assertIsNotNone(self._name("Report_conflict-20251103-140233.pdf"))
+
+    def test_ordinary_names_are_not_conflicts(self):
+        for name in ("Budget.xlsx", "holiday photo.jpg", "notes-final.docx",
+                     "report-v2.pdf", "Screenshot 2026-08-14.png"):
+            with self.subTest(name=name):
+                self.assertIsNone(self._name(name))
+
+    def test_plain_numbered_copy_is_not_called_a_conflict(self):
+        # "(1)" is ambiguous: it is also just a second download. Content
+        # comparison decides that one, not the filename.
+        self.assertIsNone(self._name("invoice (1).pdf"))
+
+    def test_base_name_recovers_the_original(self):
+        cases = {
+            "Budget (Sarah's conflicted copy 2025-11-03).xlsx": "Budget.xlsx",
+            "Notes-DESKTOP-A1B2C3.docx": "Notes.docx",
+        }
+        for conflicted, original in cases.items():
+            with self.subTest(name=conflicted):
+                self.assertEqual(scan_tree.base_name_of(conflicted), original)
+
+    def test_extension_survives_stripping(self):
+        for name in ("Budget (Sarah's conflicted copy 2025-11-03).xlsx",
+                     "Notes-DESKTOP-A1B2C3.docx"):
+            with self.subTest(name=name):
+                self.assertTrue(scan_tree.base_name_of(name).count(".") >= 1)
+
+
+class TestCloudScan(unittest.TestCase):
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+        self.dbx = os.path.join(self.root, "Dropbox", "Family")
+        os.makedirs(self.dbx)
+        self._write("Budget.xlsx", "newer version")
+        self._write("Budget (Sarah's conflicted copy 2025-11-03).xlsx", "older")
+        self._write("Notes.docx", "same bytes")
+        self._write("Notes-DESKTOP-A1B2C3.docx", "same bytes")
+        self._write("Recipes.pdf", "unrelated")
+
+    def _write(self, name, content):
+        with open(os.path.join(self.dbx, name), "w") as fh:
+            fh.write(content)
+
+    def scan(self):
+        return scan_tree.scan(self.dbx, None, 0)
+
+    def test_detects_the_sync_provider_from_the_path(self):
+        self.assertEqual(self.scan()["cloud_provider"], "Dropbox")
+
+    def test_plain_folder_reports_no_provider(self):
+        plain = tempfile.mkdtemp()
+        self.assertIsNone(scan_tree.scan(plain, None, 0)["cloud_provider"])
+
+    def test_counts_only_real_conflicts(self):
+        self.assertEqual(self.scan()["conflicted_copies"], 2)
+
+    def test_pairs_each_copy_with_its_original(self):
+        by_copy = {c["copy"]: c for c in self.scan()["conflicts"]}
+        self.assertEqual(
+            by_copy["Budget (Sarah's conflicted copy 2025-11-03).xlsx"]["original"],
+            "Budget.xlsx")
+        self.assertEqual(by_copy["Notes-DESKTOP-A1B2C3.docx"]["original"], "Notes.docx")
+
+    def test_flags_which_conflicts_are_identical(self):
+        # Identical to the original is safe to remove. Differing needs a human.
+        by_copy = {c["copy"]: c for c in self.scan()["conflicts"]}
+        self.assertTrue(by_copy["Notes-DESKTOP-A1B2C3.docx"]["same_content"])
+        self.assertFalse(
+            by_copy["Budget (Sarah's conflicted copy 2025-11-03).xlsx"]["same_content"])
+
+    def test_unpaired_conflict_reports_no_original(self):
+        self._write("Orphan (conflicted copy).txt", "x")
+        match = [c for c in self.scan()["conflicts"] if c["copy"].startswith("Orphan")]
+        self.assertEqual(match[0]["original"], None)
+
+
+class TestPlaceholders(unittest.TestCase):
+    """Acting on a file the sync client has evicted destroys its content."""
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+
+    def _touch(self, name, content=""):
+        with open(os.path.join(self.root, name), "w") as fh:
+            fh.write(content)
+
+    def test_icloud_placeholder_detected(self):
+        self._touch("Holiday.mov.icloud")
+        self.assertEqual(scan_tree.scan(self.root, None, 0)["placeholders_not_downloaded"], 1)
+
+    def test_zero_byte_file_treated_as_not_downloaded(self):
+        self._touch("Photo.jpg")
+        self.assertEqual(scan_tree.scan(self.root, None, 0)["placeholders_not_downloaded"], 1)
+
+    def test_real_files_are_not_placeholders(self):
+        self._touch("Photo.jpg", "actual bytes")
+        self.assertEqual(scan_tree.scan(self.root, None, 0)["placeholders_not_downloaded"], 0)
+
+    def test_keep_files_are_not_placeholders(self):
+        self._touch(".gitkeep")
+        self._touch("real.txt", "x")
+        self.assertEqual(scan_tree.scan(self.root, None, 0)["placeholders_not_downloaded"], 0)
