@@ -1,0 +1,100 @@
+{
+   "checksum": "stale",
+   "roots": {
+      "bookmark_bar": {
+         "type": "folder",
+         "id": "1",
+         "guid": "bb",
+         "name": "Bookmarks Bar",
+         "children": [
+            {
+               "type": "url",
+               "id": "10",
+               "guid": "g10",
+               "name": "Python docs",
+               "url": "https://docs.python.org/3/",
+               "date_added": "13300000000000000"
+            },
+            {
+               "type": "url",
+               "id": "11",
+               "guid": "g11",
+               "name": "Python docs (again)",
+               "url": "https://docs.python.org/3/?utm_source=newsletter",
+               "date_added": "13300000000000000"
+            },
+            {
+               "type": "url",
+               "id": "12",
+               "guid": "g12",
+               "name": "Python Docs www",
+               "url": "https://www.docs.python.org/3",
+               "date_added": "13300000000000000"
+            },
+            {
+               "type": "folder",
+               "id": "2",
+               "guid": "f2",
+               "name": "Reading",
+               "children": [
+                  {
+                     "type": "url",
+                     "id": "13",
+                     "guid": "g13",
+                     "name": "Some article",
+                     "url": "https://example.com/article",
+                     "date_added": "13300000000000000"
+                  },
+                  {
+                     "type": "url",
+                     "id": "14",
+                     "guid": "g14",
+                     "name": "Dead link",
+                     "url": "https://this-domain-does-not-exist-9x7.invalid/x",
+                     "date_added": "13300000000000000"
+                  }
+               ]
+            },
+            {
+               "type": "folder",
+               "id": "3",
+               "guid": "f3",
+               "name": "Lonely",
+               "children": [
+                  {
+                     "type": "url",
+                     "id": "15",
+                     "guid": "g15",
+                     "name": "Only child",
+                     "url": "https://example.org/one",
+                     "date_added": "13300000000000000"
+                  }
+               ]
+            },
+            {
+               "type": "folder",
+               "id": "4",
+               "guid": "f4",
+               "name": "Empty",
+               "children": []
+            }
+         ]
+      },
+      "other": {
+         "type": "folder",
+         "id": "5",
+         "guid": "ob",
+         "name": "Other Bookmarks",
+         "children": [
+            {
+               "type": "url",
+               "id": "16",
+               "guid": "g16",
+               "name": "Python docs dup",
+               "url": "https://docs.python.org/3",
+               "date_added": "13300000000000000"
+            }
+         ]
+      }
+   }
+}
