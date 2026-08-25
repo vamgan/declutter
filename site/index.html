@@ -8,6 +8,8 @@
 <meta name="description" content="Open-source Claude Code skills that organize your browsers, downloads, and notes. Adding an app is one markdown file.">
 <style>
 :root{
+  --ease:cubic-bezier(.22,1,.36,1);
+  --t:.5s;
   --bg:#ffffff; --bg-2:#f7f8fa; --bg-3:#eef0f4;
   --fg:#0e1116; --fg-2:#4a5261; --fg-3:#79808f;
   --line:#e3e6ec; --line-2:#d3d8e0;
@@ -62,21 +64,63 @@ code,pre{font-family:var(--mono)}
 
 /* ---------- nav: single line, 64px ---------- */
 .nav{
-  position:sticky; top:0; z-index:50; height:64px;
-  display:flex; align-items:center;
-  background:var(--glass);
-  backdrop-filter:blur(22px) saturate(180%);
-  -webkit-backdrop-filter:blur(22px) saturate(180%);
-  border-bottom:1px solid var(--glass-brd);
-  box-shadow:inset 0 1px 0 var(--glass-hi);
+  position:sticky; top:18px; z-index:50; margin-top:18px;
+  display:flex; justify-content:center; pointer-events:none;
 }
-.nav .wrap{display:flex; align-items:center; justify-content:space-between; width:100%}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; width:100%;
+  pointer-events:auto; max-width:1120px}
+.navshell{display:flex; align-items:center; gap:4px; padding:7px 7px 7px 9px;
+  border-radius:999px; background:var(--glass); border:1px solid var(--glass-brd);
+  backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%);
+  box-shadow:inset 0 1px 0 var(--glass-hi), 0 12px 34px -18px rgb(20 32 74 / .38);
+}
+.navshell a:not(.btn){text-decoration:none; font-size:14px; color:var(--fg-2); padding:9px 15px; border-radius:999px; transition:background var(--t) var(--ease), color var(--t) var(--ease)}
+.navshell a:not(.btn):hover{background:var(--bg-3); color:var(--fg)}
+.brandpill{display:flex; align-items:center; gap:9px; padding:8px 16px 8px 10px; border-radius:999px;
+  background:var(--glass); border:1px solid var(--glass-brd); text-decoration:none; font-weight:600;
+  backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%);
+  box-shadow:inset 0 1px 0 var(--glass-hi), 0 12px 34px -18px rgb(20 32 74 / .38);
+  transition:transform var(--t) var(--ease)}
+.brandpill:hover{transform:translateY(-1px)}
 .brand{display:flex; align-items:center; gap:9px; font-weight:600; letter-spacing:-0.02em; text-decoration:none}
 .mark{width:20px; height:20px; flex:none}
 .navlinks{display:flex; align-items:center; gap:28px; font-size:14px; color:var(--fg-2)}
 .navlinks a{text-decoration:none; transition:color .15s}
 .navlinks a:hover{color:var(--fg)}
-@media(max-width:720px){ .navlinks a:not(.btn){display:none} }
+
+
+@media(max-width:820px){
+  /* The pill cannot hold six links on a phone. Brand and the primary action stay. */
+  .navshell a:not(.btn){display:none}
+  .navshell{padding:6px}
+  .nav{top:12px; margin-top:12px}
+  .brandpill{padding:7px 14px 7px 9px; font-size:15px}
+}
+@media(max-width:900px){
+  /* The stage is a two-part composition; it needs room or it collides. */
+  .showcase{padding:0 16px 56px}
+  .stage{height:250px}
+  .scatter{width:46%}
+  .tidy{width:42%}
+  .tidy li{height:38px}
+  .flow{width:52px; left:47%}
+}
+
+/* ---------- announcement pill ---------- */
+.ann{display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+  padding:7px 16px 7px 12px; border-radius:999px; font-size:13.5px; color:var(--fg-2);
+  background:var(--glass); border:1px solid var(--glass-brd);
+  backdrop-filter:blur(18px) saturate(170%); -webkit-backdrop-filter:blur(18px) saturate(170%);
+  box-shadow:inset 0 1px 0 var(--glass-hi);
+  transition:transform var(--t) var(--ease), color var(--t) var(--ease)}
+.ann:hover{transform:translateY(-1px); color:var(--fg)}
+.ann b{font-weight:600; color:var(--fg)}
+.ann .dot{position:relative; width:7px; height:7px; border-radius:50%; background:var(--accent); flex:none}
+.js .ann .dot::after{content:""; position:absolute; inset:0; border-radius:50%;
+  background:var(--accent); animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{75%,100%{transform:scale(2.6); opacity:0}}
+.ann .arrow{transition:transform var(--t) var(--ease)}
+.ann:hover .arrow{transform:translateX(3px)}
 
 /* ---------- buttons ---------- */
 .glass{
@@ -92,47 +136,57 @@ code,pre{font-family:var(--mono)}
   font-size:14px; font-weight:550; text-decoration:none;
   border:1px solid transparent; transition:transform .12s, background .15s, border-color .15s;
 }
-.btn:active{transform:translateY(1px)}
+.btn{transition:transform var(--t) var(--ease), background var(--t) var(--ease), border-color var(--t) var(--ease), box-shadow var(--t) var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn .arrow{transition:transform var(--t) var(--ease)}
+.btn:hover .arrow{transform:translateX(3px)}
 .btn-primary{background:var(--accent); color:var(--accent-fg)}
 .btn-primary:hover{background:color-mix(in srgb, var(--accent) 88%, #000)}
 .btn-ghost{border-color:var(--line-2); color:var(--fg)}
 .btn-ghost:hover{background:var(--bg-2); border-color:var(--fg-3)}
 
 /* ---------- hero: asymmetric split ---------- */
-.hero{padding:96px 0 88px; border-bottom:1px solid var(--line)}
-.hero .wrap{display:grid; grid-template-columns:1.05fr 1fr; gap:64px; align-items:center}
-h1{font-size:clamp(40px,5.4vw,64px)}
-.lede{margin-top:22px; font-size:18px; color:var(--fg-2); max-width:44ch}
-.cta{margin-top:34px; display:flex; gap:12px; flex-wrap:wrap}
-@media(max-width:900px){
-  .hero{padding:56px 0 48px}
-  .hero .wrap{grid-template-columns:1fr; gap:40px}
-}
+.hero{padding:74px 0 0}
+.hero .wrap{max-width:1120px}
+h1{font-size:clamp(44px,6.6vw,82px); margin-top:26px}
+.sub{margin-top:18px; font-size:clamp(20px,2.3vw,27px); color:var(--fg); font-weight:500; letter-spacing:-.03em; max-width:22ch; line-height:1.18}
+.lede{margin-top:20px; font-size:17.5px; color:var(--fg-2); max-width:52ch}
+.herocmd{margin-top:30px; max-width:520px}
+.cta{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap}
+@media(max-width:900px){ .hero{padding:44px 0 0} }
+
+/* ---------- showcase strip below the hero ---------- */
+.showcase{margin-top:52px; padding:0 24px 88px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.showcase .stage{max-width:1180px; margin:0 auto}
+@media(max-width:900px){ .showcase{margin-top:44px; padding-bottom:56px} }
 
 /* ---------- hero stage: clutter resolving into order ---------- */
-.stage{position:relative; min-width:0; height:390px}
+.stage{position:relative; min-width:0; height:340px}
 .pane, .tidy li{
   background:var(--glass); border:1px solid var(--glass-brd); border-radius:13px;
   backdrop-filter:blur(20px) saturate(175%); -webkit-backdrop-filter:blur(20px) saturate(175%);
   box-shadow:inset 0 1px 0 var(--glass-hi), 0 20px 44px -20px var(--glass-shadow, rgb(20 32 74 / .3));
 }
-.scatter{position:absolute; left:0; top:8px; width:46%; height:100%}
+.scatter{position:absolute; left:2%; top:8px; width:42%; height:100%}
 .pane{position:absolute; padding:13px 15px}
 .pane b, .pane s{display:block; border-radius:4px; background:var(--fg-3); opacity:.30; text-decoration:none}
 .pane b{height:7px; margin-bottom:9px}
 .pane s{height:6px}
-.p1{left:4%;  top:2%;  width:70%; height:78px; --r:-12deg}
-.p2{left:22%; top:26%; width:74%; height:84px; --r:7deg}
-.p3{left:0;   top:54%; width:66%; height:74px; --r:-5deg}
-.p4{left:22%; top:76%; width:60%; height:66px; --r:10deg}
+.p1{left:4%;  top:2%;  width:70%; height:70px; --r:-12deg}
+.p2{left:22%; top:26%; width:74%; height:74px; --r:7deg}
+.p3{left:0;   top:54%; width:66%; height:66px; --r:-5deg}
+.p4{left:22%; top:76%; width:60%; height:60px; --r:10deg}
 .p1 b{width:72%} .p1 s{width:48%}
 .p2 b{width:58%} .p2 s{width:76%}
 .p3 b{width:80%} .p3 s{width:42%}
 .p4 b{width:64%} .p4 s{width:55%}
-.flow{position:absolute; left:48.5%; top:46%; width:78px; height:22px; color:var(--accent-text); opacity:.7}
-.tidy{position:absolute; right:0; top:14px; width:41%; list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; gap:12px}
-.tidy li{display:flex; align-items:center; gap:12px; height:56px; padding:0 16px}
+.flow{position:absolute; left:47%; top:46%; width:78px; height:22px; color:var(--accent-text); opacity:.7}
+.tidy{position:absolute; right:2%; top:10px; width:38%; list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:10px}
+.tidy li{display:flex; align-items:center; gap:12px; height:48px; padding:0 16px}
 .tidy span{flex:1; height:7px; border-radius:4px; background:var(--fg-3); opacity:.30}
 .tidy li:nth-child(1) span{max-width:76%} .tidy li:nth-child(2) span{max-width:62%}
 .tidy li:nth-child(3) span{max-width:84%} .tidy li:nth-child(4) span{max-width:58%}
@@ -162,9 +216,9 @@ h2{font-size:clamp(28px,3.4vw,38px)}
   -webkit-backdrop-filter:blur(22px) saturate(180%);
   box-shadow:inset 0 1px 0 var(--glass-hi), var(--glass-sh);
   display:flex; flex-direction:column; gap:10px;
-  transition:border-color .15s, transform .15s, box-shadow .15s;
+  transition:border-color var(--t) var(--ease), transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
 }
-.cell:hover{transform:translateY(-2px);
+.cell:hover{transform:translateY(-4px);
   box-shadow:inset 0 1px 0 var(--glass-hi), 0 26px 60px -28px rgb(20 32 74 / .42)}
 .cell.wide{grid-column:span 1; grid-row:span 2; background:
   linear-gradient(165deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 62%), var(--glass);}
@@ -178,7 +232,7 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 
 /* ---------- install ---------- */
 .ways{margin-top:40px; display:grid; grid-template-columns:repeat(2,1fr); gap:18px; align-items:stretch}
-.way{border:1px solid var(--glass-brd); border-radius:14px; padding:24px; background:var(--glass);
+.way{transition:transform var(--t) var(--ease), box-shadow var(--t) var(--ease); border:1px solid var(--glass-brd); border-radius:14px; padding:24px; background:var(--glass);
   backdrop-filter:blur(22px) saturate(175%); -webkit-backdrop-filter:blur(22px) saturate(175%);
   box-shadow:inset 0 1px 0 var(--glass-hi); min-width:0}
 .way h3{font-size:16px}
@@ -211,7 +265,7 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 }
 .row dt{font:500 13px/1.5 var(--mono); color:var(--fg-2)}
 .row dd{margin:0; min-width:0; display:flex; flex-wrap:wrap; gap:8px}
-.chip{
+.chip{transition:transform var(--t) var(--ease), border-color var(--t) var(--ease);
   font-size:13.5px; padding:5px 11px; border-radius:999px;
   background:var(--glass); color:var(--fg); border:1px solid var(--glass-brd);
   backdrop-filter:blur(14px) saturate(160%); -webkit-backdrop-filter:blur(14px) saturate(160%);
@@ -243,6 +297,7 @@ h2{font-size:clamp(28px,3.4vw,38px)}
 /* ---------- safety: hairline two-col ---------- */
 .rules{margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:0 56px}
 .rule{padding:20px 0; border-top:1px solid var(--line)}
+.rule{transition:transform var(--t) var(--ease)}
 .rule h3{font-size:15px}
 .rule p{margin-top:6px; font-size:14.5px; color:var(--fg-2)}
 @media(max-width:760px){ .rules{grid-template-columns:1fr} }
@@ -255,14 +310,17 @@ footer a:hover{color:var(--fg)}
 
 /* ---------- motion ---------- */
 /* Hero entrance: leads the eye headline, then subtext, then action. */
-.js .hero h1, .js .lede, .js .cta, .js .stage{
+.js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .stage{
   opacity:0; transform:translateY(18px);
   animation:enter .85s cubic-bezier(.16,1,.3,1) forwards;
 }
-.js .hero h1{animation-delay:.05s}
-.js .lede    {animation-delay:.16s}
-.js .cta     {animation-delay:.26s}
-.js .stage   {animation-delay:.20s}
+.js .ann     {animation-delay:.02s}
+.js .hero h1 {animation-delay:.08s}
+.js .sub     {animation-delay:.16s}
+.js .lede    {animation-delay:.24s}
+.js .herocmd {animation-delay:.32s}
+.js .cta     {animation-delay:.40s}
+.js .stage   {animation-delay:.46s}
 @keyframes enter{to{opacity:1; transform:none}}
 
 /* Scattered panes settle from disorder into their resting tilt, then breathe.
@@ -272,8 +330,8 @@ footer a:hover{color:var(--fg)}
   animation:settle .95s cubic-bezier(.16,1,.3,1) forwards,
             drift 9s ease-in-out infinite;
 }
-.js .p1{animation-delay:.42s, 1.5s} .js .p2{animation-delay:.52s, 1.9s}
-.js .p3{animation-delay:.62s, 2.3s} .js .p4{animation-delay:.72s, 2.7s}
+.js .p1{animation-delay:.68s, 1.8s} .js .p2{animation-delay:.78s, 2.2s}
+.js .p3{animation-delay:.88s, 2.6s} .js .p4{animation-delay:.98s, 3.0s}
 @keyframes settle{
   from{opacity:0; transform:translate(-26px,14px) rotate(calc(var(--r) * 2.6)) scale(.94)}
   to  {opacity:1; transform:rotate(var(--r))}
@@ -285,12 +343,12 @@ footer a:hover{color:var(--fg)}
 
 /* Ordered rows arrive after the scatter, one at a time, as if being filed. */
 .js .tidy li{opacity:0; animation:file .6s cubic-bezier(.16,1,.3,1) forwards}
-.js .tidy li:nth-child(1){animation-delay:.95s} .js .tidy li:nth-child(2){animation-delay:1.05s}
-.js .tidy li:nth-child(3){animation-delay:1.15s} .js .tidy li:nth-child(4){animation-delay:1.25s}
-.js .tidy li:nth-child(5){animation-delay:1.35s}
+.js .tidy li:nth-child(1){animation-delay:1.20s} .js .tidy li:nth-child(2){animation-delay:1.30s}
+.js .tidy li:nth-child(3){animation-delay:1.40s} .js .tidy li:nth-child(4){animation-delay:1.50s}
+.js .tidy li:nth-child(5){animation-delay:1.60s}
 @keyframes file{from{opacity:0; transform:translateX(20px)} to{opacity:1; transform:none}}
 
-.js .flow{opacity:0; animation:enter .6s ease forwards .9s}
+.js .flow{opacity:0; animation:enter .6s var(--ease) forwards 1.15s}
 .js .rise{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1)}
 .js .rise.in{opacity:1; transform:none}
 @media (prefers-reduced-transparency:reduce){
@@ -299,14 +357,14 @@ footer a:hover{color:var(--fg)}
   .nav, .cell, .chip, .term, .codeblock, .glass{
     backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
   }
-  .nav, .cell, .chip{background:var(--bg); border-color:var(--line)}
+  .nav, .cell, .chip{transition:transform var(--t) var(--ease), border-color var(--t) var(--ease);background:var(--bg); border-color:var(--line)}
   .term, .codeblock{background:var(--term-bg); border-color:var(--line-2)}
   .alt{background:var(--bg-2)}
 }
 @media (prefers-reduced-motion:reduce){
   .js .rise{opacity:1; transform:none; transition:none}
-  .js .hero h1, .js .lede, .js .cta, .js .stage,
-  .js .pane, .js .tidy li, .js .flow{
+  .js .ann, .js .hero h1, .js .sub, .js .lede, .js .herocmd, .js .cta, .js .stage,
+  .js .pane, .js .tidy li, .js .flow, .js .ann .dot::after{
     opacity:1 !important; transform:none !important; animation:none !important;
   }
   .js .pane{transform:rotate(var(--r)) !important}
@@ -318,14 +376,14 @@ footer a:hover{color:var(--fg)}
 
 <nav class="nav">
   <div class="wrap">
-    <a class="brand" href="#top">
+    <a class="brandpill" href="#top">
       <svg class="mark" viewBox="0 0 20 20" fill="none" aria-hidden="true">
         <rect x="1" y="1" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/>
         <path d="M5.5 7.5h9M5.5 10.5h6M5.5 13.5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
       declutter
     </a>
-    <div class="navlinks">
+    <div class="navshell">
       <a href="#install">Install</a>
       <a href="#skills">Skills</a>
       <a href="#coverage">Coverage</a>
@@ -338,14 +396,26 @@ footer a:hover{color:var(--fg)}
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div>
-      <h1>Your computer<br>is a mess.</h1>
-      <p class="lede">Open-source skills that teach your AI agent to organize your browsers, downloads, and notes. Adding an app is one file.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://github.com/vamgan/declutter">Get it on GitHub</a>
-        <a class="btn btn-ghost" href="#contribute">Add a skill</a>
-      </div>
+    <a class="ann" href="#coverage">
+      <span class="dot"></span><span><b>Ten browsers</b>, one markdown file</span> <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <h1>Your computer<br>is a mess.</h1>
+    <p class="sub">Teach your AI agent to clean it.</p>
+    <p class="lede">Open-source skills that organize your browsers, downloads, desktop, and notes. Adding support for an app is one file.</p>
+
+    <div class="cmd herocmd">
+      <code id="c0">npx skills add vamgan/declutter</code>
+      <button class="copy" data-for="c0" aria-label="Copy command"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V3.8A1.3 1.3 0 0 0 9.2 2.5H3.8A1.3 1.3 0 0 0 2.5 3.8v5.4a1.3 1.3 0 0 0 1.3 1.3h1.7"/></svg></button>
     </div>
+
+    <div class="cta">
+      <a class="btn btn-primary" href="#install">Install it <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn-ghost" href="#contribute">Add a skill <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+
+  <div class="showcase">
     <div class="stage" aria-label="Scattered files resolving into an ordered list">
       <div class="scatter">
         <div class="pane p1"><b></b><s></s></div>
