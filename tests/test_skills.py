@@ -244,6 +244,15 @@ class TestPublishedCountsMatchCode(unittest.TestCase):
         readme = read(os.path.join(ROOT, "README.md"))
         self.assertIn(f"**{words[self.expected]} browsers, one markdown file.**", readme)
 
+    def test_announcement_pill_matches_code(self):
+        # This drifted once: the pill said "Ten browsers" while the coverage
+        # table said eleven. It is derived now, and this keeps it that way.
+        words = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve"}
+        site = read(os.path.join(ROOT, "site", "index.html"))
+        m = re.search(r"<b>(\w+) browsers</b>", site)
+        self.assertIsNotNone(m, "the site no longer states a browser count in the pill")
+        self.assertEqual(m.group(1), words[self.expected])
+
     def test_every_chromium_app_appears_on_the_site(self):
         site = read(os.path.join(ROOT, "site", "index.html"))
         for app in self.platforms.CHROMIUM:
@@ -302,12 +311,3 @@ class TestVendoredCopiesAreInSync(unittest.TestCase):
                     with self.subTest(skill=os.path.basename(d), file=f"{kind}/{name}"):
                         self.assertTrue(os.path.exists(src), "vendored file has no source")
                         self.assertEqual(read(src), read(os.path.join(sub, name)))
-
-    def test_announcement_pill_matches_code(self):
-        # This drifted once: the pill said "Ten browsers" while the coverage
-        # table said eleven. It is derived now, and this keeps it that way.
-        words = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve"}
-        site = read(os.path.join(ROOT, "site", "index.html"))
-        m = re.search(r"<b>(\w+) browsers</b>", site)
-        self.assertIsNotNone(m, "the site no longer states a browser count in the pill")
-        self.assertEqual(m.group(1), words[self.expected])
