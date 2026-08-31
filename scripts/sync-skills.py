@@ -73,6 +73,9 @@ def published(check_only):
     site_path = os.path.join(ROOT, "site", "index.html")
     site = open(site_path, encoding="utf-8").read()
     new_site = re.sub(r'(class="stat">)\d+(<)', r"\g<1>%d\g<2>" % total, site)
+    # the announcement pill states the same number and drifted once already
+    new_site = re.sub(r'(<b>)\w+ browsers(</b>)',
+                      r"\g<1>%s browsers\g<2>" % NUMBER[total], new_site)
     chips = "".join('<span class="chip">%s</span>' % a for a in chromium)
     new_site = re.sub(r'(<dt>Chrome and everything built on it</dt>\s*<dd>).*?(</dd>)',
                       lambda m: m.group(1) + chips + m.group(2), new_site, flags=re.S)
